@@ -1,24 +1,36 @@
 {
   "$schema": "https://mintlify.com/docs.json",
-  "theme": "mint",
-  "name": "Mint Starter Kit",
+  "theme": "almond",
+  "name": "Cpay Pagamentos",
   "colors": {
-    "primary": "#16A34A",
-    "light": "#07C983",
-    "dark": "#15803D"
+    "primary": "#08d6b4",
+    "light": "#08d6b4",
+    "dark": "#08d6b4"
   },
-  "favicon": "/favicon.svg",
+  "seo": {
+    "indexing": "all",
+    "metatags": {
+      "og:type": "website",
+      "og:site_name": "Cpay Pagamentos Documentação"
+    }
+  },
+  "favicon": "/favicon.png",
   "navigation": {
     "tabs": [
       {
-        "tab": "API Reference",
+        "tab": "Documentação",
         "groups": [
           {
-            "group": "API Documentation",
+            "group": "Introdução",
             "pages": [
-              "api-reference/introduction"
+              "pages/intro"
             ]
-          },
+          }
+        ]
+      },
+      {
+        "tab": "Referência da API",
+        "groups": [
           {
             "group": "Endpoint Examples",
             "pages": [
@@ -34,19 +46,9 @@
     "global": {
       "anchors": [
         {
-          "anchor": "Documentation",
-          "href": "https://mintlify.com/docs",
-          "icon": "book-open-cover"
-        },
-        {
-          "anchor": "Community",
-          "href": "https://mintlify.com/community",
-          "icon": "slack"
-        },
-        {
-          "anchor": "Blog",
-          "href": "https://mintlify.com/blog",
-          "icon": "newspaper"
+          "anchor": "Comunidade",
+          "href": "https://discord.gg/BxC2W3bB",
+          "icon": "discord"
         }
       ]
     }
@@ -58,20 +60,20 @@
   "navbar": {
     "links": [
       {
-        "label": "Support",
-        "href": "mailto:hi@mintlify.com"
+        "label": "Suporte",
+        "href": "mailto:contato@cpay.app.br"
       }
     ],
     "primary": {
       "type": "button",
       "label": "Dashboard",
-      "href": "https://dashboard.mintlify.com"
+      "href": "https://dash.cpay.app.br"
     }
   },
   "footer": {
     "socials": {
-      "x": "https://x.com/mintlify",
-      "github": "https://github.com/mintlify",
+      "instagram": "https://www.instagram.com/cpay.app.br/",
+      "github": "https://github.com/cpay-pagamentos",
       "linkedin": "https://linkedin.com/company/mintlify"
     }
   }
