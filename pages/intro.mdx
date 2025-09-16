@@ -3,69 +3,81 @@ title: Comece aqui
 icon: 'share'
 description: "Pegue seu café e aprenda sobre nós!"
 ---
-Nesta documentação você encontrará tudo o que precisa para integrar com a API da AbacatePay. Desenvolvida por desenvolvedores para desenvolvedores, nossa plataforma foi projetada para ser intuitiva e fácil de usar.
+Bem-vindo à documentação da API Cpay.
 
+Aqui você encontrará todos os recursos necessários para realizar integrações de forma simples, eficiente e segura.
 ## <Icon icon="Share" type="solid"/>  Quem somos?
 
-A AbacatePay é um gateway de pagamento que surgiu da nossa própria necessidade de simplificar cobranças em nossos produtos. Percebemos que os meios de pagamento existentes eram excessivamente complexos:
-- Documentações extensas e confusas
-- Processos de homologação longos e burocráticos
-- Múltiplas formas de realizar a mesma operação
-- Alguns gateways até exigem cursos para integração!
+A Cpay é um gateway de pagamento criado a partir da nossa própria necessidade de simplificar cobranças.
+Percebemos que as soluções disponíveis no mercado eram excessivamente complexas, apresentando desafios como:
+- Documentações extensas e pouco objetivas
+- Várias maneiras diferentes de executar a mesma operação
+- E até exigência de treinamentos para conseguir integrar
+
+Com a Cpay, buscamos eliminar essas barreiras e entregar uma experiência de integração simples, rápida e eficiente.
 
 Nossa solução? Uma plataforma que transforma a complexidade das Fintechs em uma API simples e intuitiva. Veja como é fácil:
 
-```javascript
-// Exemplo de criação de cobrança
-const payment = await abacatePay.payments.create({
-  amount: 1000,
-  description: "Serviço prestado"
-});
+```php
+<?php
+
+use Cpay\Client\Client;
+
+$payment = (new Client($_ENV('CPAY_API')))->charge()->create(
+    amount: 200,
+    name: 'Brendo Oliveira',
+    document: '123.456.789-01'
+);
+
 ```
 
 ## <Icon icon="laptop" type="solid"/>  API descomplicada
 
 Nossa API foi construída com três princípios fundamentais:
 
-1. **Baseada em intenção**: Cada endpoint representa exatamente o que você lê
+1. **Endpoints Coerentes**: Cada endpoint representa exatamente o que você lê
    ```
-   POST /billing/create    // Cria um pagamento
-   GET /billing/get       // Busca um pagamento específico
+   POST /charge/create        // Cria um pagamento
+   GET /charge/{$charge_id}  // Busca um pagamento específico
    ```
 
 2. **Idempotente**: Execute a mesma requisição quantas vezes precisar, sem efeitos colaterais
-   ```javascript
+   ```php
    // Seguro para executar múltiplas vezes
-   await abacatePay.billing.create({...});
+   $payment->charge()->create(...);
    ```
 
-3. **Consistente**: Nossa API retorna sempre um option contendo o erro ou os dados de retorno, o que facilita a implementação em linguagens de tipagem forte e consistência em todas as operações.
-   ```json
-   {
-     "data": {
-         "id": "bill_12345667",
-         "url": "https://abacatepay.com/pay/bill_12345667",
-         "amount": 1000,
-         "status": "PENDING",
-         "devMode": true,
-         "methods": ["PIX"],
-         "frequency": "ONE_TIME",
-         "nextBilling": null,
-         "customer": {
-            "id": "cust_12345",
-            "metadata": {
-               "email": "customer@example.com"
-            }
-         },
-         "createdAt": "2024-11-04T18:38:28.573",
-         "updatedAt": "2024-11-04T18:38:28.573",
-      },
-      "error": null
-   }
-   ```
+3. **Consistente**: Nossa API retorna sempre uma opção padronizada, que pode conter dados de erro ou o resultado esperado.
+Esse formato garante consistência em todas as operações e facilita a implementação em linguagens de tipagem forte, reduzindo ambiguidades e simplificando o tratamento de respostas.
+```json
+{
+    "error": null,
+    "status": 200,
+    "data": {
+        "id": "ch_a6cccdcd-2ce0-4d24-a8a2-09f159144186",
+        "externalID": null,
+        "brCode": "00020101021226810014br.gov.bcb...",
+        "brCodeBase64": "data:image/png;base64,iVBORw0KGgoA...",
+        "amount": 300,
+        "expiration": 300,
+        "fee": 78,
+        "expiresAt": "2025-09-16 15:31:57",
+        "status": "PENDING",
+        "customer": {
+            "id": "cus_67d2b131-0a84-4e82-bab0-1f9b2fd63751",
+            "name": "Brendo Oliveira",
+            "document": "1234567801",
+            "email": "brendo@cpay.app.br",
+            "phone": "15992877099"
+        },
+        "createdAt": "2025-09-16 15:26:57",
+        "updatedAt": "2025-09-16 15:26:57"
+    }
+}
+```
 
 Para facilitar ainda mais, oferecemos SDKs oficiais e suporte a modo de desenvolvimento com chaves de API dedicadas.
 
 ## <Icon icon="cloud" type="solid"/>  Dúvidas? 
 
-Nossa equipe está sempre pronta para ajudar! Entre em contato pelo email <Icon icon="envelope" type="solid"/> ajuda@abacatepay.com
+Nossa equipe está sempre pronta para ajudar! Entre em contato pelo email <Icon icon="envelope" type="solid"/> contato@cpay.app.br
