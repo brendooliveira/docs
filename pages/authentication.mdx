@@ -1,79 +1,90 @@
 ---
+
 title: 'Autenticação'
 description: 'Como enviar requisições para a nossa API'
 icon: 'lock'
+------------
+
+# <Icon icon="lock" type="solid"/> Autenticação
+
+<Tip>  
+**Chave de API**: é sua credencial de acesso à Cpay.  
+Ela identifica sua conta e autoriza as requisições.  
+**Sem a chave, as chamadas serão recusadas.**  
+</Tip>  
+
 ---
 
-<Tip>
-  **Chave de API**: Sua credencial de acesso à API da Cpay. Esta chave identifica sua conta e autoriza suas requisições. **IMPORTANTE**: Sem a chave de API, as requisições serão recusadas.
-</Tip> 
+## <Icon icon="key" type="solid"/> Gerenciamento de chaves
 
-## <Icon icon="lock" type="solid"/>  Gerenciando chaves de API
+No dashboard da Cpay você pode:
 
-Gerencie suas chaves de API diretamente em nossa plataforma. Você pode:
-- Listar todas as chaves ativas
-- Criar novas chaves
-- Revogar chaves existentes
+* Listar chaves ativas
+* Criar novas chaves
+* Revogar chaves comprometidas ou em desuso
 
-<Card title="Erro de Autenticação" icon="warning" horizontal>
-  A API retornará o código HTTP `401` quando:
-  - A chave de API não for fornecida no header
-  - A chave for inválida
-  - A chave tiver sido revogada
-</Card>
+<Card title="Erro de Autenticação" icon="warning" horizontal>  
+A API retornará `401 Unauthorized` quando:  
+- A chave não for enviada no header  
+- A chave for inválida  
+- A chave tiver sido revogada  
+</Card>  
 
-## <Icon icon="key" type="solid"/>  Criando chaves de API
+---
 
-<Card title="Boas Práticas de Segurança" icon="light-emergency-on" horizontal>
-  * Armazene suas chaves em variáveis de ambiente ou gerenciadores de segredos
-  * Nunca compartilhe suas chaves de API
-  * Nós da Cpay nunca solicitará suas chaves
-  * Revogue imediatamente qualquer chave comprometida
-</Card>
+## <Icon icon="shield-check" type="solid"/> Boas práticas
 
-## Como criar sua chave de API
+<Card title="Segurança" icon="light-emergency-on" horizontal>  
+- Armazene chaves em variáveis de ambiente ou gerenciadores de segredos  
+- Nunca compartilhe suas chaves  
+- A equipe da Cpay **nunca solicitará** suas credenciais  
+- Revogue imediatamente qualquer chave exposta  
+</Card>  
 
-Siga estes passos no dashboard:
+---
 
-<Steps>
-  <Step title="Acesse a Seção de Integração">
-  
-      <img
-        src="/images/criar-chave-api.png"
-        className="rounded-lg"
-        alt="Interface da plataforma Cpay mostrando o botão de criação de chave"
-      />
-      <Card title="Clique no botão 'Criar Chave'">
-        Inicie o processo de criação de uma nova chave de API
-      </Card>
+## <Icon icon="plus-circle" type="solid"/> Criando uma chave
 
-  </Step>
-  <Step title="Adicione uma Descrição">
+<Steps>  
+  <Step title="Acesse Integrações no Dashboard">  
+    <img  
+      src="/images/criar-chave-api.png"  
+      className="rounded-lg"  
+      alt="Tela da Cpay mostrando botão de criação de chave"  
+    />  
+    <Card title="Clique em 'Criar Chave'">  
+      Inicie o processo de geração de uma nova chave de API.  
+    </Card>  
+  </Step>  
 
-      <img
-        src="/images/exemplo-de-chave-api.png"
-        className="rounded-lg"
-        alt="Formulário de criação de chave com campo de descrição"
-      />
-      <Card title="Identifique sua chave">
-        Adicione uma descrição clara para identificar o propósito desta chave
-      </Card>
+  <Step title="Adicione uma descrição">  
+    <img  
+      src="/images/exemplo-de-chave-api.png"  
+      className="rounded-lg"  
+      alt="Formulário com campo de descrição da chave"  
+    />  
+    <Card title="Identifique a chave">  
+      Informe uma descrição clara para facilitar sua gestão.  
+    </Card>  
+  </Step>  
 
-  </Step>
-  <Step title="Copie sua Chave">
-      <img
-        src="/images/copiar-chave-api.png"
-        className="rounded-lg"
-        alt="Lista de chaves com opção para copiar"
-      />
-      <Card title="Armazene sua chave com segurança">
-        Basta clicar em cima da chave, copie a chave gerada e armazene-a em um local seguro
-      </Card>
-      
-  </Step>
-</Steps>
+  <Step title="Copie sua chave">  
+    <img  
+      src="/images/copiar-chave-api.png"  
+      className="rounded-lg"  
+      alt="Lista de chaves com opção de copiar"  
+    />  
+    <Card title="Armazene com segurança">  
+      Copie a chave gerada e salve em um local seguro.  
+    </Card>  
+  </Step>  
+</Steps>  
 
-Após criar sua chave, você pode começar a integrar com nossa API. Lembre-se de incluir a chave em todas as requisições no header `Authorization`:
+---
+
+## <Icon icon="terminal" type="solid"/> Usando sua chave
+
+Inclua a chave em todas as requisições no header `Authorization`:
 
 ```bash
 curl -X POST https://api.cpay.app.br/v1/charge/create \
@@ -82,6 +93,7 @@ curl -X POST https://api.cpay.app.br/v1/charge/create \
   -d '{"amount": 1000}'
 ```
 
-<Card title="Nota Importante" icon="info" horizontal>
-  O mesmo endpoint (`https://api.cpay.app.br`) é usado tanto para o ambiente de desenvolvimento quanto para produção. O ambiente é determinado automaticamente pela chave de API utilizada na requisição.
-</Card>
+<Card title="Importante" icon="info" horizontal>  
+O mesmo endpoint (`https://api.cpay.app.br`) é usado para **produção** e **desenvolvimento**.  
+O ambiente é definido automaticamente pela chave de API utilizada.  
+</Card>  

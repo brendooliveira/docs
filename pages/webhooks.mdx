@@ -1,231 +1,239 @@
 ---
+
 title: 'Webhooks'
-description: 'Configure e receba notificações sobre atualizações'
+description: 'Configure e receba notificações em tempo real da Cpay'
 icon: 'webhook'
+---------------
+
+Os **webhooks** permitem que sua aplicação seja notificada automaticamente, em tempo real, sobre eventos relevantes na **Cpay**.
+Isso elimina a necessidade de consultas manuais à API, garantindo mais agilidade e consistência em seus processos.
+
 ---
 
-Webhooks permitem que sua aplicação receba notificações em tempo real sobre eventos importantes da Cpay.
+## <Icon icon="mobile" type="solid"/>  Gerenciando Webhooks
 
-## <Icon icon="mobile" type="solid"/>  Gerenciando webhooks
+Você pode gerenciar seus webhooks diretamente pelo dashboard da Cpay. É possível:
 
-Gerencie seus webhooks diretamente em nossa plataforma. Você pode:
-- Listar todos os webhooks ativos
-- Criar novos webhooks
-- Remover webhooks existentes
+* **Listar** todos os webhooks ativos
+* **Criar** novos webhooks conforme sua necessidade
+* **Desativar** webhooks que não serão mais utilizados
 
-## <Icon icon="key" type="solid"/>  Criando webhooks
+---
 
-<Card title="Segurança dos Webhooks" icon="light-emergency-on" horizontal>
-  * Configure um secret único para cada webhook
-  * Valide o secret em todas as requisições recebidas
-  * Use HTTPS para todas as URLs de webhook
-  * Implemente retry logic para lidar com falhas temporárias
+## <Icon icon="key" type="solid"/>  Criando Webhooks
+
+<Card title="Boas práticas de segurança" icon="light-emergency-on" horizontal>
+  * Utilize um **secret exclusivo** para cada webhook  
+  * Valide a **assinatura** de todas as requisições recebidas  
+  * Configure apenas **URLs HTTPS** para maior segurança  
+  * Implemente **lógica de retry** para lidar com falhas temporárias  
 </Card>
 
-## Como criar seu webhook
+---
 
-Siga estes passos no dashboard da cpay:
+## Como criar seu Webhook
+
+Siga estes passos no dashboard da Cpay:
 
 <Steps>
-  <Step title="Acesse a Seção de Webhooks">
-
-      <img
-        src="/images/criar-webhook.png"
-        className="rounded-lg"
-        alt="Interface da plataforma cpay mostrando a seção de webhooks"
-      />
-      <Card title="Navegue até a seção Integrar e clique em Webhooks">
-        Inicie o processo de configuração de um novo webhook
-      </Card>
+  <Step title="Acesse a seção de Webhooks">
+    <img
+      src="/images/criar-webhook.png"
+      className="rounded-lg"
+      alt="Interface da plataforma Cpay mostrando a seção de webhooks"
+    />
+    <Card title="Navegue até a seção Integrar e clique em Webhooks">
+      Inicie a configuração de um novo webhook
+    </Card>
   </Step>
-  <Step title="Inicie a Criação">
+
+  <Step title="Inicie a criação">
     <Card>
       <img
         src="/images/salvar-webhook.png"
+        className="rounded-lg"
         alt="Formulário de criação de webhook"
       />
-      <Card title="Clique em 'Criar' e prepare-se para configurar">
+      <Card title="Clique em 'Criar'">
         Você será direcionado ao formulário de configuração
       </Card>
     </Card>
   </Step>
+
   <Step title="Configure seu Webhook">
-    <Card>
-      <Card title="Preencha os campos necessários:" horizontal> 
-        * **Nome**: Identificador único para seu webhook (ex: "Notificações de Pagamento")
-        * **URL**: Endpoint HTTPS que receberá as notificações
-        * **Secret**: Chave secreta para validar as requisições
+
+      <Card title="Preencha os campos obrigatórios:" horizontal> 
+        * **Nome** → Identificador do webhook (ex.: "Pagamentos Aprovados")  
+        * **URL** → Endpoint HTTPS que receberá as notificações  
+        * **Assinatura** → Secret usado para validação das requisições  
+        * **Status** → Defina se o webhook ficará ativo ou inativo  
       </Card>
-    </Card>
+
   </Step>
 </Steps>
 
+---
+
 ## <Icon icon="lock" type="solid"/> Protegendo suas requisições
 
-Cada notificação enviada para seu webhook inclui o secret configurado como parâmetro de query string para validação.
+Cada notificação enviada inclui o **secret configurado**, que deve ser validado pela sua aplicação.
+Isso garante que apenas chamadas legítimas da Cpay sejam processadas.
 
 ### Exemplo de URL de Webhook
 
-URL base do seu webhook:
+* URL base configurada no dashboard:
+
 ```
 https://meusite.com/webhook/cpay
 ```
 
-URL com secret (como será chamado):
+* Chamadas realizadas pela Cpay incluirão o **header de assinatura** com o secret:
+
 ```
-https://meusite.com/webhook/cpay?webhookSecret=seu_secret_aqui
+signature: seu_secret_configurado
 ```
 
-### Exemplo de Implementação
+---
+
+## Exemplo de Implementação
 
 ```javascript
-// Exemplo de validação do webhook
+// Exemplo de validação de webhook com Node.js/Express
 app.post('/webhook/cpay', (req, res) => {
-  const webhookSecret = req.query.webhookSecret;
-  
-  if (webhookSecret !== process.env.WEBHOOK_SECRET) {
-    return res.status(401).json({ error: 'Invalid webhook secret' });
+  const signature = req.headers['signature'];
+
+  if (signature !== process.env.WEBHOOK_SECRET) {
+    return res.status(401).json({ error: 'Invalid webhook signature' });
   }
-  
-  // Processa a notificação
+
+  // Processa o evento recebido
   const event = req.body;
-  console.log('Received webhook:', event);
-  
+  console.log('Webhook recebido:', event);
+
   res.status(200).json({ received: true });
 });
 ```
+
 
 ## <Icon icon="bell" type="solid"/> Eventos Suportados
 
 Atualmente, suportamos os seguintes eventos:
 
-### `billing.paid`
+### `EVENT:CPAY_CHARGE_PAID`
 
-Este evento é disparado quando um pagamento é confirmado. O payload varia dependendo da origem do pagamento:
-
-<Tabs>
-  <Tab title="PIX QR Code">
-    ```json
-    {
-      "data": {
-        "payment": {
-          "amount": 1000,
-          "fee": 80,
-          "method": "PIX"
-        },
-        "pixQrCode": {
-          "amount": 1000,
-          "id": "pix_char_mXTWdj6sABWnc4uL2Rh1r6tb",
-          "kind": "PIX",
-          "status": "PAID"
-        }
-      },
-      "devMode": false,
-      "event": "billing.paid"
-    }
-    ```
-  </Tab>
-  <Tab title="Cobrança">
-    ```json
-    {
-      "data": {
-        "payment": {
-          "amount": 1000,
-          "fee": 80,
-          "method": "PIX"
-        },
-        "billing": {
-          "amount": 1000,
-          "couponsUsed": [],
-          "customer": {
-            "id": "cust_4hnLDN3YfUWrwQBQKYMwL6Ar",
-            "metadata": {
-              "cellphone": "11111111111",
-              "email": "christopher@cpay.com",
-              "name": "Christopher Ribeiro",
-              "taxId": "12345678901"
-            }
-          },
-          "frequency": "ONE_TIME",
-          "id": "bill_QgW1BT3uzaDGR3ANKgmmmabZ",
-          "kind": [
-            "PIX"
-          ],
-          "paidAmount": 1000,
-          "products": [
-            {
-              "externalId": "123",
-              "id": "prod_RGKGsjBWsJwRn1mHyGMFJNjP",
-              "quantity": 1
-            }
-          ],
-          "status": "PAID"
-        }
-      },
-      "devMode": false,
-      "event": "billing.paid"
-    }
-    ```
-  </Tab>
-</Tabs>
-
-### `withdraw.done`
-
-Este evento é disparado quando um saque é concluído com sucesso. O payload contém o objeto Transaction:
+Este evento é disparado quando um pagamento é confirmado:
 
 ```json
 {
+  "event": "EVENT:CPAY_CHARGE_PAID",
   "data": {
-    "transaction": {
-      "id": "tran_123456",
-      "status": "COMPLETE",
-      "devMode": false,
-      "receiptUrl": "https://cpay.com/receipt/tran_123456",
-      "kind": "WITHDRAW",
-      "amount": 5000,
-      "platformFee": 80,
-      "externalId": "withdraw-1234",
-      "createdAt": "2025-03-24T21:50:20.772Z",
-      "updatedAt": "2025-03-24T21:55:20.772Z"
+    "charge_id": "ch_abb6bc4f-f55d-45ff-8be2-8fdbde0cb8b8",
+    "brCode": "00020101021226810014br.gov.bcb.pix255..",
+    "brCodeBase64": "data:image/png;base64,iVBOR..",
+    "amount": 300,
+    "expiration": "300",
+    "fee": 78,
+    "expiresAt": "2025-09-16 11:43:30",
+    "status": "PAID",
+    "customer": {
+      "id": "cus_2352001f-43da-4875-b4c0-cc6350d3891e",
+      "name": "Brendo Oliveira",
+      "document": "123.456.789.01",
+      "email": "brendo@cpay.app.br",
+      "phone": "(15) 99799-1010"
     }
-  },
-  "devMode": false,
-  "event": "withdraw.done"
+  }
 }
 ```
 
-### `withdraw.failed`
+### `EVENT:CPAY_CHARGE_EXPIRED`
 
-Este evento é disparado quando um saque não é concluído. O payload contém o objeto Transaction:
+Este evento é disparado quando uma cobrança é expirada
 
 ```json
 {
+  "event": "EVENT:CPAY_CHARGE_EXPIRED",
   "data": {
-    "transaction": {
-      "id": "tran_789012",
-      "status": "CANCELLED",
-      "devMode": false,
-      "receiptUrl": "https://cpay.com/receipt/tran_789012",
-      "kind": "WITHDRAW",
-      "amount": 3000,
-      "platformFee": 0,
-      "externalId": "withdraw-5678",
-      "createdAt": "2025-03-24T22:00:20.772Z",
-      "updatedAt": "2025-03-24T22:05:20.772Z"
+    "charge_id": "ch_abb6bc4f-f55d-45ff-8be2-8fdbde0cb8b8",
+    "brCode": "00020101021226810014br.gov.bcb.pix255..",
+    "brCodeBase64": "data:image/png;base64,iVBOR..",
+    "amount": 300,
+    "expiration": "300",
+    "fee": 78,
+    "expiresAt": "2025-09-16 11:43:30",
+    "status": "EXPIRED",
+    "customer": {
+      "id": "cus_2352001f-43da-4875-b4c0-cc6350d3891e",
+      "name": "Brendo Oliveira",
+      "document": "123.456.789.01",
+      "email": "brendo@cpay.app.br",
+      "phone": "(15) 99799-1010"
     }
-  },
-  "devMode": false,
-  "event": "withdraw.failed"
+  }
+}
+```
+
+### `EVENT:CPAY_CHARGE_REFUND`
+
+Este evento é disparado quando uma cobrança é extornada
+
+```json
+{
+  "event": "EVENT:CPAY_CHARGE_REFUND",
+  "data": {
+    "id": "ch_abb6bc4f-f55d-45ff-8be2-8fdbde0cb8b8",
+    "externalID": null,
+    "brCode": "00020101021226810014br.gov.bcb.pix..",
+    "brCodeBase64": "data:image/png;base64,iVBORw0KGgoAAA..",
+    "amount": 250,
+    "expiration": "300",
+    "fee": 78,
+    "expiresAt": "2025-09-16 11:43:30",
+    "status": "REFUNDED",
+    "customer": {
+      "id": "cus_2352001f-43da-4875-b4c0-cc6350d3891e",
+      "name": "Brendo Otavio",
+      "document": "490.464.828-55",
+      "email": "brendo.dev@outlook.com",
+      "phone": "(15) 99787-6029"
+    }
+  }
+}
+```
+
+### `EVENT:CPAY_CASH_OUT`
+
+Este evento é disparado quando uma cobrança é extornada
+
+```json
+{
+  "event": "EVENT:CPAY_CASH_OUT",
+  "data": {
+    "id": "wdl_47d56145-870e-4240-83a4-c0199308278b",
+    "externalID": "123-SAQUE",
+    "amount": 200,
+    "comment": "PAGAMENTO",
+    "status": "DONE",
+    "destination": {
+      "name": "BRENDO OTAVIO DE OLIVEIRA SANTOS",
+      "bankName": "BCO SANTANDER (BRASIL) S.A.",
+      "pikKey": "brendo@cpay.app.br",
+      "pixKeyType": "EMAIL",
+      "account": "00000000000000000",
+      "branch": "0000"
+    },
+    "createdAt": "2025-09-17 15:59:07",
+    "updatedAt": "2025-09-17 15:59:10"
+  }
 }
 ```
 
 <Card title="Nota Importante" icon="info" horizontal>
-  * O campo `devMode` indica se o evento ocorreu no ambiente de desenvolvimento
   * Todos os valores monetários são expressos em centavos
   * O campo `fee` representa a taxa cobrada pela cpay
   * O campo `event` identifica o tipo de evento recebido
 </Card>
 
 <Card title="Precisa de ajuda?" icon="headset" color="#25c2a0">
-  Nossa equipe está disponível para auxiliar na implementação de webhooks. Entre em contato pelo e-mail <Icon icon="envelope" type="solid"/> ajuda@cpay.com
+  Nossa equipe está disponível para auxiliar na implementação de webhooks. Entre em contato pelo e-mail <Icon icon="envelope" type="solid"/> contato@cpay.app.br
 </Card>

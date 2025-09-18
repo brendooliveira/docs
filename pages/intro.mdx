@@ -1,79 +1,83 @@
 ---
+
 title: Comece aqui
 icon: 'share'
-description: "Veja como é simples integrar com a gente :)"
+description: "Veja como é simples integrar com a gente 🚀"
+----------------------------------------------------------
+
+# Bem-vindo à API Cpay
+
+Aqui você encontra tudo o que precisa para integrar de forma rápida, simples e segura.
+
 ---
-Bem-vindo à documentação da API Cpay.
 
-Aqui você encontrará todos os recursos necessários para realizar integrações de forma simples, eficiente e segura.
-## <Icon icon="Share" type="solid"/>  Quem somos?
+## <Icon icon="Share" type="solid"/> Quem somos
 
-A Cpay é um gateway de pagamento criado a partir da nossa própria necessidade de simplificar cobranças.
-Percebemos que as soluções disponíveis no mercado eram excessivamente complexas, apresentando desafios como:
-- Documentações extensas e pouco objetivas
-- Várias maneiras diferentes de executar a mesma operação
-- E até exigência de treinamentos para conseguir integrar
+A **Cpay** nasceu da nossa necessidade de simplificar cobranças.
+Percebemos que muitos gateways do mercado são cheios de barreiras:
 
-Com a Cpay, buscamos eliminar essas barreiras e entregar uma experiência de integração simples, rápida e eficiente.
+* Documentações extensas e pouco objetivas
+* Diversas formas diferentes de executar a mesma operação
+* Até exigência de treinamentos para conseguir integrar
 
-Nossa solução? Uma plataforma que transforma a complexidade das Fintechs em uma API simples e intuitiva. Veja como é fácil:
+Com a Cpay, eliminamos essa complexidade. Nossa proposta é transformar a burocracia dos meios de pagamento em uma API clara e intuitiva.
+
+### Exemplo rápido
 
 ```php
 <?php
 
 use Cpay\Client\Client;
 
-$payment = (new Client($_ENV('CPAY_API')))->charge()->create(
-    amount: 200,
-    name: 'Brendo Oliveira', // OPCIONAL
-    document: '123.456.789-01' // OPCIONAL
-);
-
+$payment = (new Client($_ENV('CPAY_API')))
+    ->charge()
+    ->create(
+        amount: 200,
+        name: 'Brendo Oliveira', // opcional
+        document: '123.456.789-01' // opcional
+    );
 ```
 
-## <Icon icon="laptop" type="solid"/>  API descomplicada
+---
 
-Nossa API foi construída com dois princípios fundamentais:
+## <Icon icon="laptop" type="solid"/> API descomplicada
 
-1. **Idempotente**: Execute a mesma requisição quantas vezes precisar, sem efeitos colaterais
+Nossa API segue dois princípios:
+
+1. **Idempotência**
+   A mesma requisição pode ser executada várias vezes sem efeitos colaterais.
+
    ```php
-   // Seguro para executar múltiplas vezes
    $payment->charge()->create(...);
    ```
 
-2. **Consistente**: Nossa API retorna sempre uma opção padronizada, que pode conter dados de erro ou o resultado esperado.
-Esse formato garante consistência em todas as operações e facilita a implementação em linguagens de tipagem forte, reduzindo ambiguidades e simplificando o tratamento de respostas.
-```json
-{
-    "error": null,
-    "status": 200,
-    "data": {
-        "id": "ch_a6cccdcd-2ce0-4d24-a8a2-09f159144186",
-        "externalID": null,
-        "brCode": "00020101021226810014br.gov.bcb...",
-        "brCodeBase64": "data:image/png;base64,iVBORw0KGgoA...",
-        "amount": 300,
-        "expiration": 300,
-        "fee": 78,
-        "expiresAt": "2025-09-16 15:31:57",
-        "status": "PENDING",
-        "customer": {
-            "id": "cus_67d2b131-0a84-4e82-bab0-1f9b2fd63751",
-            "name": "Brendo Oliveira",
-            "document": "1234567801",
-            "email": "brendo@cpay.app.br",
-            "phone": "15992877099"
-        },
-        "createdAt": "2025-09-16 15:26:57",
-        "updatedAt": "2025-09-16 15:26:57"
-    }
-}
-```
+2. **Consistência**
+   Todas as respostas seguem um padrão único: erro ou dados de retorno.
+   Isso facilita a integração em linguagens fortemente tipadas e simplifica o tratamento de respostas.
 
-Para facilitar ainda mais, oferecemos SDKs oficiais e suporte a modo de desenvolvimento com chaves de API dedicadas.
+   ```json
+   {
+       "error": null,
+       "status": 200,
+       "data": {
+           "id": "ch_a6cccdcd-2ce0-4d24-a8a2-09f159144186",
+           "amount": 300,
+           "status": "PENDING",
+           "customer": {
+               "id": "cus_67d2b131-0a84-4e82-bab0-1f9b2fd63751",
+               "name": "Brendo Oliveira",
+               "document": "1234567801"
+           }
+       }
+   }
+   ```
 
-## <Icon icon="cloud" type="solid"/>  Dúvidas? 
+Além disso, oferecemos **SDKs oficiais** e suporte a **modo de desenvolvimento** com chaves dedicadas.
 
-Nossa equipe está sempre pronta para ajudar! Entre em contato pelo email
+---
 
-<Icon icon="envelope" type="solid"/> contato@cpay.app.br
+## <Icon icon="cloud" type="solid"/> Suporte
+
+Ficou com dúvidas? Nossa equipe está pronta para ajudar:
+
+<Icon icon="envelope" type="solid"/> [contato@cpay.app.br](mailto:contato@cpay.app.br)
