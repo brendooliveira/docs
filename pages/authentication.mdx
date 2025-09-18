@@ -37,37 +37,39 @@ Siga estes passos no dashboard:
 
 <Steps>
   <Step title="Acesse a Seção de Integração">
-    <Card>
+  
       <img
         src="/images/criar-chave-api.png"
+        className="rounded-lg"
         alt="Interface da plataforma Cpay mostrando o botão de criação de chave"
       />
       <Card title="Clique no botão 'Criar Chave'">
         Inicie o processo de criação de uma nova chave de API
       </Card>
-    </Card>
+
   </Step>
   <Step title="Adicione uma Descrição">
-    <Card>
+
       <img
         src="/images/exemplo-de-chave-api.png"
+        className="rounded-lg"
         alt="Formulário de criação de chave com campo de descrição"
       />
       <Card title="Identifique sua chave">
         Adicione uma descrição clara para identificar o propósito desta chave
       </Card>
-    </Card>
+
   </Step>
   <Step title="Copie sua Chave">
-    <Card>
       <img
         src="/images/copiar-chave-api.png"
+        className="rounded-lg"
         alt="Lista de chaves com opção para copiar"
       />
       <Card title="Armazene sua chave com segurança">
         Basta clicar em cima da chave, copie a chave gerada e armazene-a em um local seguro
       </Card>
-    </Card>
+      
   </Step>
 </Steps>
 
@@ -75,7 +77,7 @@ Após criar sua chave, você pode começar a integrar com nossa API. Lembre-se d
 
 ```bash
 curl -X POST https://api.cpay.app.br/v1/charge/create \
-  -H "Authorization: Bearer sua_chave_api" \
+  -H "Authorization: sua_chave_api" \
   -H "Content-Type: application/json" \
   -d '{"amount": 1000}'
 ```

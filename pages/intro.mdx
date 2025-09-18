@@ -1,7 +1,7 @@
 ---
 title: Comece aqui
 icon: 'share'
-description: "Pegue seu café e aprenda sobre nós!"
+description: "Veja como é simples integrar com a gente :)"
 ---
 Bem-vindo à documentação da API Cpay.
 
@@ -33,21 +33,15 @@ $payment = (new Client($_ENV('CPAY_API')))->charge()->create(
 
 ## <Icon icon="laptop" type="solid"/>  API descomplicada
 
-Nossa API foi construída com três princípios fundamentais:
+Nossa API foi construída com dois princípios fundamentais:
 
-1. **Endpoints Coerentes**: Cada endpoint representa exatamente o que você lê
-   ```
-   POST /charge/create        // Cria um pagamento
-   GET /charge/{$charge_id}  // Busca um pagamento específico
-   ```
-
-2. **Idempotente**: Execute a mesma requisição quantas vezes precisar, sem efeitos colaterais
+1. **Idempotente**: Execute a mesma requisição quantas vezes precisar, sem efeitos colaterais
    ```php
    // Seguro para executar múltiplas vezes
    $payment->charge()->create(...);
    ```
 
-3. **Consistente**: Nossa API retorna sempre uma opção padronizada, que pode conter dados de erro ou o resultado esperado.
+2. **Consistente**: Nossa API retorna sempre uma opção padronizada, que pode conter dados de erro ou o resultado esperado.
 Esse formato garante consistência em todas as operações e facilita a implementação em linguagens de tipagem forte, reduzindo ambiguidades e simplificando o tratamento de respostas.
 ```json
 {

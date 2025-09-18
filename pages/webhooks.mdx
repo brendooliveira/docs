@@ -4,7 +4,7 @@ description: 'Configure e receba notificações sobre atualizações'
 icon: 'webhook'
 ---
 
-Webhooks permitem que sua aplicação receba notificações em tempo real sobre eventos importantes da AbacatePay.
+Webhooks permitem que sua aplicação receba notificações em tempo real sobre eventos importantes da Cpay.
 
 ## <Icon icon="mobile" type="solid"/>  Gerenciando webhooks
 
@@ -24,19 +24,19 @@ Gerencie seus webhooks diretamente em nossa plataforma. Você pode:
 
 ## Como criar seu webhook
 
-Siga estes passos no dashboard da AbacatePay:
+Siga estes passos no dashboard da cpay:
 
 <Steps>
   <Step title="Acesse a Seção de Webhooks">
-    <Card>
+
       <img
         src="/images/criar-webhook.png"
-        alt="Interface da plataforma AbacatePay mostrando a seção de webhooks"
+        className="rounded-lg"
+        alt="Interface da plataforma cpay mostrando a seção de webhooks"
       />
       <Card title="Navegue até a seção Integrar e clique em Webhooks">
         Inicie o processo de configuração de um novo webhook
       </Card>
-    </Card>
   </Step>
   <Step title="Inicie a Criação">
     <Card>
@@ -68,19 +68,19 @@ Cada notificação enviada para seu webhook inclui o secret configurado como par
 
 URL base do seu webhook:
 ```
-https://meusite.com/webhook/abacatepay
+https://meusite.com/webhook/cpay
 ```
 
 URL com secret (como será chamado):
 ```
-https://meusite.com/webhook/abacatepay?webhookSecret=seu_secret_aqui
+https://meusite.com/webhook/cpay?webhookSecret=seu_secret_aqui
 ```
 
 ### Exemplo de Implementação
 
 ```javascript
 // Exemplo de validação do webhook
-app.post('/webhook/abacatepay', (req, res) => {
+app.post('/webhook/cpay', (req, res) => {
   const webhookSecret = req.query.webhookSecret;
   
   if (webhookSecret !== process.env.WEBHOOK_SECRET) {
@@ -141,7 +141,7 @@ Este evento é disparado quando um pagamento é confirmado. O payload varia depe
             "id": "cust_4hnLDN3YfUWrwQBQKYMwL6Ar",
             "metadata": {
               "cellphone": "11111111111",
-              "email": "christopher@abacatepay.com",
+              "email": "christopher@cpay.com",
               "name": "Christopher Ribeiro",
               "taxId": "12345678901"
             }
@@ -180,7 +180,7 @@ Este evento é disparado quando um saque é concluído com sucesso. O payload co
       "id": "tran_123456",
       "status": "COMPLETE",
       "devMode": false,
-      "receiptUrl": "https://abacatepay.com/receipt/tran_123456",
+      "receiptUrl": "https://cpay.com/receipt/tran_123456",
       "kind": "WITHDRAW",
       "amount": 5000,
       "platformFee": 80,
@@ -205,7 +205,7 @@ Este evento é disparado quando um saque não é concluído. O payload contém o
       "id": "tran_789012",
       "status": "CANCELLED",
       "devMode": false,
-      "receiptUrl": "https://abacatepay.com/receipt/tran_789012",
+      "receiptUrl": "https://cpay.com/receipt/tran_789012",
       "kind": "WITHDRAW",
       "amount": 3000,
       "platformFee": 0,
@@ -222,10 +222,10 @@ Este evento é disparado quando um saque não é concluído. O payload contém o
 <Card title="Nota Importante" icon="info" horizontal>
   * O campo `devMode` indica se o evento ocorreu no ambiente de desenvolvimento
   * Todos os valores monetários são expressos em centavos
-  * O campo `fee` representa a taxa cobrada pela AbacatePay
+  * O campo `fee` representa a taxa cobrada pela cpay
   * O campo `event` identifica o tipo de evento recebido
 </Card>
 
 <Card title="Precisa de ajuda?" icon="headset" color="#25c2a0">
-  Nossa equipe está disponível para auxiliar na implementação de webhooks. Entre em contato pelo e-mail <Icon icon="envelope" type="solid"/> ajuda@abacatepay.com
+  Nossa equipe está disponível para auxiliar na implementação de webhooks. Entre em contato pelo e-mail <Icon icon="envelope" type="solid"/> ajuda@cpay.com
 </Card>
