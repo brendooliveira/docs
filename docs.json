@@ -24,7 +24,8 @@
             "group": "Introdução",
             "pages": [
               "pages/intro",
-              "pages/authentication"
+              "pages/authentication",
+              "pages/webhooks"
             ]
           }
         ]

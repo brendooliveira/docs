@@ -15,12 +15,6 @@ Gerencie suas chaves de API diretamente em nossa plataforma. Você pode:
 - Criar novas chaves
 - Revogar chaves existentes
 
-<Card title="Ambientes e Chaves de API" icon="book" horizontal>
-  Todas as requisições são enviadas para o mesmo endpoint (`https://api.cpay.app.br`), mas o ambiente é determinado pela chave de API utilizada:
-  - Chaves criadas em **dev** processam transações no ambiente de testes
-  - Chaves criadas em **produção** processam transações reais
-</Card>
-
 <Card title="Erro de Autenticação" icon="warning" horizontal>
   A API retornará o código HTTP `401` quando:
   - A chave de API não for fornecida no header
@@ -83,9 +77,9 @@ Após criar sua chave, você pode começar a integrar com nossa API. Lembre-se d
 curl -X POST https://api.cpay.app.br/v1/charge/create \
   -H "Authorization: Bearer sua_chave_api" \
   -H "Content-Type: application/json" \
-  -d '{"amount": 1000, "name": "Brendo Oliveira", "document": "12345678901"}'
+  -d '{"amount": 1000}'
 ```
 
 <Card title="Nota Importante" icon="info" horizontal>
-  O mesmo endpoint (`https://api.cpai.app.br`) é usado tanto para o ambiente de desenvolvimento quanto para produção. O ambiente é determinado automaticamente pela chave de API utilizada na requisição.
+  O mesmo endpoint (`https://api.cpay.app.br`) é usado tanto para o ambiente de desenvolvimento quanto para produção. O ambiente é determinado automaticamente pela chave de API utilizada na requisição.
 </Card>

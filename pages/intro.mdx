@@ -25,8 +25,8 @@ use Cpay\Client\Client;
 
 $payment = (new Client($_ENV('CPAY_API')))->charge()->create(
     amount: 200,
-    name: 'Brendo Oliveira',
-    document: '123.456.789-01'
+    name: 'Brendo Oliveira', // OPCIONAL
+    document: '123.456.789-01' // OPCIONAL
 );
 
 ```
@@ -80,4 +80,6 @@ Para facilitar ainda mais, oferecemos SDKs oficiais e suporte a modo de desenvol
 
 ## <Icon icon="cloud" type="solid"/>  Dúvidas? 
 
-Nossa equipe está sempre pronta para ajudar! Entre em contato pelo email <Icon icon="envelope" type="solid"/> contato@cpay.app.br
+Nossa equipe está sempre pronta para ajudar! Entre em contato pelo email
+
+<Icon icon="envelope" type="solid"/> contato@cpay.app.br
