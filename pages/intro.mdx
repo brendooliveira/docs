@@ -5,7 +5,7 @@ icon: 'share'
 description: "Veja como é simples integrar com a gente 🚀"
 ----------------------------------------------------------
 
-# Bem-vindo à API Cpay
+# Bem-vindo à API AobaPay
 
 Aqui você encontra tudo o que precisa para integrar de forma rápida, simples e segura.
 
@@ -13,7 +13,7 @@ Aqui você encontra tudo o que precisa para integrar de forma rápida, simples e
 
 ## <Icon icon="Share" type="solid"/> Quem somos
 
-A **Cpay** nasceu da nossa necessidade de simplificar cobranças.
+A **AobaPay** nasceu da nossa necessidade de simplificar cobranças.
 Percebemos que muitos gateways do mercado são cheios de barreiras:
 
 * Documentações extensas e pouco objetivas
@@ -29,12 +29,10 @@ Com a Cpay, eliminamos essa complexidade. Nossa proposta é transformar a burocr
 
 use Cpay\Client\Client;
 
-$payment = (new Client($_ENV('CPAY_API')))
+$payment = (new Client($_ENV('AOBAPAY_API')))
     ->charge()
     ->create(
-        amount: 200,
-        name: 'Brendo Oliveira', // opcional
-        document: '123.456.789-01' // opcional
+        amount: 200
     );
 ```
 
@@ -71,9 +69,6 @@ Nossa API segue dois princípios:
        }
    }
    ```
-
-Além disso, oferecemos **SDKs oficiais** e suporte a **modo de desenvolvimento** com chaves dedicadas.
-
 ---
 
 ## <Icon icon="cloud" type="solid"/> Suporte

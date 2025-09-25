@@ -15,6 +15,14 @@
     }
   },
   "favicon": "/favicon.png",
+  "api": {
+    "mdx": {
+      "server": "https://api.aobapay.com/v1",
+      "auth": {
+        "method": "bearer"
+      }
+    }
+  },
   "navigation": {
     "tabs": [
       {
@@ -25,22 +33,29 @@
             "pages": [
               "pages/intro",
               "pages/authentication",
-              "pages/webhooks",
-              "pages/sdk"
+              "pages/webhooks"
+            ]
+          },
+          {
+            "group": "Pix QRCode",
+            "pages": [
+              "pages/pix/reference",
+              "pages/pix/create",
+              "pages/pix/get"
+            ]
+          },
+          {
+            "group": "Conta",
+            "pages": [
+              "pages/account/reference",
+              "pages/account/get"
             ]
           }
         ]
       },
       {
         "tab": "Referência da API",
-        "groups": [
-          {
-            "group": "Endpoint Examples",
-            "pages": [
-
-            ]
-          }
-        ]
+        "openapi": "openapi.yaml"
       }
     ],
     "global": {
@@ -61,19 +76,19 @@
     "links": [
       {
         "label": "Suporte",
-        "href": "mailto:contato@cpay.app.br"
+        "href": "mailto:contato@aobapay.com"
       }
     ],
     "primary": {
       "type": "button",
       "label": "Dashboard",
-      "href": "https://dash.cpay.app.br"
+      "href": "https://app.aobapay.com"
     }
   },
   "footer": {
     "socials": {
-      "instagram": "https://www.instagram.com/cpay.app.br/",
-      "github": "https://github.com/cpay-pagamentos",
+      "instagram": "https://www.instagram.com/aobapay",
+      "github": "https://github.com/AobaPay",
       "linkedin": "https://linkedin.com/company/mintlify"
     }
   }

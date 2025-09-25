@@ -8,7 +8,7 @@ icon: 'lock'
 # <Icon icon="lock" type="solid"/> Autenticação
 
 <Tip>  
-**Chave de API**: é sua credencial de acesso à Cpay.  
+**Chave de API**: é sua credencial de acesso à AobaPay.  
 Ela identifica sua conta e autoriza as requisições.  
 **Sem a chave, as chamadas serão recusadas.**  
 </Tip>  
@@ -17,7 +17,7 @@ Ela identifica sua conta e autoriza as requisições.
 
 ## <Icon icon="key" type="solid"/> Gerenciamento de chaves
 
-No dashboard da Cpay você pode:
+No dashboard da AobaPay você pode:
 
 * Listar chaves ativas
 * Criar novas chaves
@@ -37,7 +37,7 @@ A API retornará `401 Unauthorized` quando:
 <Card title="Segurança" icon="light-emergency-on" horizontal>  
 - Armazene chaves em variáveis de ambiente ou gerenciadores de segredos  
 - Nunca compartilhe suas chaves  
-- A equipe da Cpay **nunca solicitará** suas credenciais  
+- A equipe da AobaPay **nunca solicitará** suas credenciais  
 - Revogue imediatamente qualquer chave exposta  
 </Card>  
 
@@ -87,13 +87,13 @@ A API retornará `401 Unauthorized` quando:
 Inclua a chave em todas as requisições no header `Authorization`:
 
 ```bash
-curl -X POST https://api.cpay.app.br/v1/charge/create \
-  -H "Authorization: sua_chave_api" \
+curl -X POST https://api.aobapay.com/v1/charge/pix/create \
+  -H "Authorization: Bearer sua_chave_api" \
   -H "Content-Type: application/json" \
   -d '{"amount": 1000}'
 ```
 
 <Card title="Importante" icon="info" horizontal>  
-O mesmo endpoint (`https://api.cpay.app.br`) é usado para **produção** e **desenvolvimento**.  
+O mesmo endpoint (`https://api.aobapay.com`) é usado para **produção** e **desenvolvimento**.  
 O ambiente é definido automaticamente pela chave de API utilizada.  
 </Card>  

@@ -1,18 +1,18 @@
 ---
 
 title: 'Webhooks'
-description: 'Configure e receba notificações em tempo real da Cpay'
+description: 'Configure e receba notificações em tempo real da AobaPay'
 icon: 'webhook'
 ---------------
 
-Os **webhooks** permitem que sua aplicação seja notificada automaticamente, em tempo real, sobre eventos relevantes na **Cpay**.
+Os **webhooks** permitem que sua aplicação seja notificada automaticamente, em tempo real, sobre eventos relevantes na **AobaPay**.
 Isso elimina a necessidade de consultas manuais à API, garantindo mais agilidade e consistência em seus processos.
 
 ---
 
 ## <Icon icon="mobile" type="solid"/>  Gerenciando Webhooks
 
-Você pode gerenciar seus webhooks diretamente pelo dashboard da Cpay. É possível:
+Você pode gerenciar seus webhooks diretamente pelo dashboard da AobaPay. É possível:
 
 * **Listar** todos os webhooks ativos
 * **Criar** novos webhooks conforme sua necessidade
@@ -33,7 +33,7 @@ Você pode gerenciar seus webhooks diretamente pelo dashboard da Cpay. É possí
 
 ## Como criar seu Webhook
 
-Siga estes passos no dashboard da Cpay:
+Siga estes passos no dashboard da AobaPay:
 
 <Steps>
   <Step title="Acesse a seção de Webhooks">
@@ -48,15 +48,13 @@ Siga estes passos no dashboard da Cpay:
   </Step>
 
   <Step title="Inicie a criação">
-    <Card>
-      <img
-        src="/images/salvar-webhook.png"
-        className="rounded-lg"
-        alt="Formulário de criação de webhook"
-      />
-      <Card title="Clique em 'Criar'">
-        Você será direcionado ao formulário de configuração
-      </Card>
+    <img
+      src="/images/salvar-webhook.png"
+      className="rounded-lg"
+      alt="Formulário de criação de webhook"
+    />
+    <Card title="Clique em 'Criar'">
+      Você será direcionado ao formulário de configuração
     </Card>
   </Step>
 
@@ -77,17 +75,17 @@ Siga estes passos no dashboard da Cpay:
 ## <Icon icon="lock" type="solid"/> Protegendo suas requisições
 
 Cada notificação enviada inclui o **secret configurado**, que deve ser validado pela sua aplicação.
-Isso garante que apenas chamadas legítimas da Cpay sejam processadas.
+Isso garante que apenas chamadas legítimas da AobaPay sejam processadas.
 
 ### Exemplo de URL de Webhook
 
 * URL base configurada no dashboard:
 
 ```
-https://meusite.com/webhook/cpay
+https://meusite.com/webhook/aobapay
 ```
 
-* Chamadas realizadas pela Cpay incluirão o **header de assinatura** com o secret:
+* Chamadas realizadas pela AobaPay incluirão o **header de assinatura** com o secret:
 
 ```
 signature: seu_secret_configurado
@@ -99,7 +97,7 @@ signature: seu_secret_configurado
 
 ```javascript
 // Exemplo de validação de webhook com Node.js/Express
-app.post('/webhook/cpay', (req, res) => {
+app.post('/webhook/aobapay', (req, res) => {
   const signature = req.headers['signature'];
 
   if (signature !== process.env.WEBHOOK_SECRET) {
@@ -119,17 +117,17 @@ app.post('/webhook/cpay', (req, res) => {
 
 Atualmente, suportamos os seguintes eventos:
 
-### `EVENT:CPAY_CHARGE_PAID`
+### `EVENT:CHARGE_PAID`
 
 Este evento é disparado quando um pagamento é confirmado:
 
 ```json
 {
-  "event": "EVENT:CPAY_CHARGE_PAID",
+  "event": "EVENT:CHARGE_PAID",
   "data": {
     "charge_id": "ch_abb6bc4f-f55d-45ff-8be2-8fdbde0cb8b8",
     "brCode": "00020101021226810014br.gov.bcb.pix255..",
-    "brCodeBase64": "data:image/png;base64,iVBOR..",
+    "brCodeImageUrl": "https://api.aobapay.com/v1/qrcode/ch_abb6bc4f-f55d-45ff-8be2-8fdbde0cb8b8",
     "amount": 300,
     "expiration": "300",
     "fee": 78,
@@ -146,17 +144,17 @@ Este evento é disparado quando um pagamento é confirmado:
 }
 ```
 
-### `EVENT:CPAY_CHARGE_EXPIRED`
+### `EVENT:CHARGE_EXPIRED`
 
 Este evento é disparado quando uma cobrança é expirada
 
 ```json
 {
-  "event": "EVENT:CPAY_CHARGE_EXPIRED",
+  "event": "EVENT:CHARGE_EXPIRED",
   "data": {
     "charge_id": "ch_abb6bc4f-f55d-45ff-8be2-8fdbde0cb8b8",
     "brCode": "00020101021226810014br.gov.bcb.pix255..",
-    "brCodeBase64": "data:image/png;base64,iVBOR..",
+    "brCodeImageUrl": "https://api.aobapay.com/v1/qrcode/ch_abb6bc4f-f55d-45ff-8be2-8fdbde0cb8b8",
     "amount": 300,
     "expiration": "300",
     "fee": 78,
@@ -173,18 +171,18 @@ Este evento é disparado quando uma cobrança é expirada
 }
 ```
 
-### `EVENT:CPAY_CHARGE_REFUND`
+### `EVENT:CHARGE_REFUND`
 
 Este evento é disparado quando uma cobrança é extornada
 
 ```json
 {
-  "event": "EVENT:CPAY_CHARGE_REFUND",
+  "event": "EVENT:CHARGE_REFUND",
   "data": {
     "id": "ch_abb6bc4f-f55d-45ff-8be2-8fdbde0cb8b8",
     "externalID": null,
     "brCode": "00020101021226810014br.gov.bcb.pix..",
-    "brCodeBase64": "data:image/png;base64,iVBORw0KGgoAAA..",
+    "brCodeImageUrl": "https://api.aobapay.com/v1/qrcode/ch_abb6bc4f-f55d-45ff-8be2-8fdbde0cb8b8",
     "amount": 250,
     "expiration": "300",
     "fee": 78,
@@ -201,13 +199,13 @@ Este evento é disparado quando uma cobrança é extornada
 }
 ```
 
-### `EVENT:CPAY_CASH_OUT`
+### `EVENT:CASH_OUT`
 
 Este evento é disparado quando uma cobrança é extornada
 
 ```json
 {
-  "event": "EVENT:CPAY_CASH_OUT",
+  "event": "EVENT:CASH_OUT",
   "data": {
     "id": "wdl_47d56145-870e-4240-83a4-c0199308278b",
     "externalID": "123-SAQUE",
@@ -217,7 +215,7 @@ Este evento é disparado quando uma cobrança é extornada
     "destination": {
       "name": "BRENDO OTAVIO DE OLIVEIRA SANTOS",
       "bankName": "BCO SANTANDER (BRASIL) S.A.",
-      "pikKey": "brendo@cpay.app.br",
+      "pikKey": "brendo@aobapay.com",
       "pixKeyType": "EMAIL",
       "account": "00000000000000000",
       "branch": "0000"
@@ -235,5 +233,5 @@ Este evento é disparado quando uma cobrança é extornada
 </Card>
 
 <Card title="Precisa de ajuda?" icon="headset" color="#25c2a0">
-  Nossa equipe está disponível para auxiliar na implementação de webhooks. Entre em contato pelo e-mail <Icon icon="envelope" type="solid"/> contato@cpay.app.br
+  Nossa equipe está disponível para auxiliar na implementação de webhooks. Entre em contato pelo e-mail <Icon icon="envelope" type="solid"/> contato@aobapay.com
 </Card>

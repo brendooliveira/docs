@@ -1,0 +1,447 @@
+openapi: 3.1.0
+info:
+  title: API AobaPay
+  description: API para gerenciamento de cobranças e pagamentos usando o AobaPay.
+  version: 1.0.0
+servers:
+  - url: https://api.aobapay.com/v1
+    description: Único servidor para os ambientes de produção e sandbox.
+paths:
+  /charge/pix/create:
+    post:
+      summary: 'Criar QRCode PIX'
+      description: Permite que você crie um código copia-e-cola e um QRCode Pix para seu cliente fazer o pagamento.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                amount:
+                  type: number
+                  description: Valor da cobrança em centavos.
+                  example: 200
+                  minimum: 200
+                externalID:
+                  type: string
+                  description: ID externo para referência na sua aplicação.
+                  example: '12345678900'
+                expiration:
+                  type: number
+                  description: Tempo de expiração da cobrança em segundos.
+                  example: 3600
+                  minimum: 300
+                comment:
+                  type: string
+                  maxLength: 35
+                  comment: Mensagem que aparecerá na hora do pagamento do PIX.
+                name:
+                  type: string
+                  description: Nome do pagador.
+                  example: 'João da Silva'
+                email:
+                  type: string
+                  description: Email do pagador.
+                  example: 'joao.silva@example.com'
+                phone:
+                  type: string
+                  description: Telefone do pagador.
+                  example: '11987654321'
+                document:
+                  type: string
+                  description: Documento do pagador (CPF ou CNPJ).
+                  example: '12345678900'
+              required: ['amount']
+              uniqueProperties: ['externalID']
+      responses:
+        '200':
+          description: QRCode Pix criado com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: 'null'
+                  status:
+                    type: integer
+                    description: Código de status HTTP.
+                    example: 200
+                  data:
+                    $ref: '#/components/schemas/PixQRCode'
+        '400':
+          description: Requisição inválida. Dados fornecidos são inválidos.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Mensagem de erro descrevendo o motivo da falha.
+                    example: 'Valor deve ser no mínimo 200'
+                  status:
+                    type: integer
+                    description: Código de status HTTP.
+                    example: 400
+                  data:
+                    type: 'array'
+                    example: []
+        '401':
+          description: Não autorizado. Falha na autenticação.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Mensagem de erro descrevendo o motivo da falha na autenticação.
+                    example: 'Header com Authorization está vazio'
+                  status:
+                    type: integer
+                    description: Código de status HTTP.
+                    example: 401
+                  data:
+                    type: 'array'
+                    example: []
+  /charge/{id}:
+    get:
+      summary: 'Buscar cobrança'
+      description: Busca os dados de uma cobrança pelo ID.
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: QRCode Pix criado com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: 'null'
+                  status:
+                    type: integer
+                    description: Código de status HTTP.
+                    example: 200
+                  data:
+                    $ref: '#/components/schemas/PixQRCode'
+        '400':
+          description: Requisição inválida. Dados fornecidos são inválidos.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Mensagem de erro descrevendo o motivo da falha.
+                    example: 'ID da cobrança é obrigatório'
+                  status:
+                    type: integer
+                    description: Código de status HTTP.
+                    example: 400
+                  data:
+                    type: 'array'
+                    example: []
+        '401':
+          description: Não autorizado. Falha na autenticação.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Mensagem de erro descrevendo o motivo da falha na autenticação.
+                    example: 'Token de autenticação inválido ou ausente.'
+      parameters:
+        - name: id
+          in: path
+          description: ID da cobrança
+          required: true
+          schema:
+            type: string
+  /withdraw/create:
+    post:
+      summary: Criar um novo saque
+      description: Permite que você crie um novo saque para transferir valores da sua conta para uma chave PIX.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Dados necessários para criar um saque.
+              required: ['externalId', 'method', 'amount', 'pix']
+              additionalProperties: false
+              properties:
+                description:
+                  type: string
+                  description: Descrição opcional do saque.
+                  example: Saque para conta principal
+                externalId:
+                  type: string
+                  description: Identificador único do saque em seu sistema.
+                  example: 'withdraw-1234'
+                method:
+                  type: string
+                  description: Método de saque disponível.
+                  enum: ['PIX']
+                  example: 'PIX'
+                amount:
+                  type: number
+                  description: Valor do saque em centavos.
+                  minimum: 350
+                  example: 5000
+                pix:
+                  type: object
+                  description: Dados da chave PIX para receber o saque.
+                  required: ['type', 'key']
+                  additionalProperties: false
+                  properties:
+                    type:
+                      type: string
+                      description: Tipo da chave PIX.
+                      enum: ['CPF', 'CNPJ', 'PHONE', 'EMAIL', 'RANDOM']
+                      example: 'CPF'
+                    key:
+                      type: string
+                      description: Valor da chave PIX.
+                      example: '123.456.789-01'
+      responses:
+        '200':
+          description: Saque criado com sucesso.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Transaction'
+                  error:
+                    type: 'null'
+        '401':
+          description: Não autorizado. Falha na autenticação.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Mensagem de erro descrevendo o motivo da falha na autenticação.
+                    example: 'Token de autenticação inválido ou ausente.'
+  /withdraw/get:
+    get:
+      summary: Buscar saque
+      description: Permite que você recupere os detalhes de um saque específico usando o externalId.
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: externalId
+          in: query
+          description: Identificador único do saque em seu sistema.
+          required: true
+          schema:
+            type: string
+            example: 'withdraw-1234'
+      responses:
+        '200':
+          description: Detalhes do saque retornados com sucesso.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Transaction'
+                  error:
+                    type: 'null'
+        '401':
+          description: Não autorizado. Falha na autenticação.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Mensagem de erro descrevendo o motivo da falha na autenticação.
+                    example: 'Token de autenticação inválido ou ausente.'
+        '404':
+          description: Saque não encontrado.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: 'null'
+                  error:
+                    type: string
+                    description: Mensagem de erro indicando que o saque não foi encontrado.
+                    example: 'Saque não encontrado com o externalId fornecido.'
+  /account:
+    get:
+      summary: Obter detalhes da conta
+      description: Permite que você recupere os detalhes da sua conta/loja, incluindo informações de saldo.
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Detalhes da loja retornados com sucesso.
+          content:
+            application/json: 
+              schema:
+                oneOf:
+                  - type: object
+                    properties:
+                      error:
+                        type: string
+                        description: Mensagem de erro caso ocorra algum problema.
+                        example: 'Erro ao recuperar dados da loja.'
+                      data:
+                        type: 'null'
+                    required: ['error']
+                  - type: object
+                    properties:
+                      error:
+                        type: 'null'
+                      data:
+                        $ref: '#/components/schemas/Store'
+                    required: ['error', 'data']
+        '401':
+          description: Não autorizado. Falha na autenticação.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Mensagem de erro descrevendo o motivo da falha na autenticação.
+                    example: 'Token de autenticação inválido ou ausente.'
+components:
+  schemas:
+    PixQRCode:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Identificador único do QRCode Pix.
+          example: 'ch_123456'
+        externalID:
+          type: string
+          description: Identificador único do QRCode Pix no seu sistema.
+          example: 'pedido-123'
+        brCode:
+          type: string
+          description: Código copia-e-cola do QRCode Pix.
+          example: '00020101021226950014br.gov.bcb.pix'
+        brCodeImageUrl:
+          type: string
+          description: Imagem em Base64 do QRCode Pix.
+          example: 'https://api.aobapay.com/v1/qrcode/ch_abb6bc4f-f55d-45ff-8b'
+        amount:
+          type: number
+          description: Valor a ser pago.
+          example: 200
+        comment:
+          type: string
+          description: Comentário opcional sobre o QRCode Pix.
+          example: 'Pagamento para pedido #123'
+        expiration:
+          type: integer
+          description: Data de expiração do QRCode Pix em segundos.
+          example: 300
+        fee:
+          type: number
+          description: Taxas da plataforma
+          example: 78
+        expiresAt:
+          type: string
+          description: Data de expiração do QRCode Pix.
+          example: '2025-09-25 13:07:27'
+        status:
+          type: string
+          description: Informação sobre o andamento do QRCode Pix.
+          enum: ['PENDING', 'EXPIRED', 'FAILED', 'PAID', 'REFUNDED']
+          example: 'PENDING'
+        customer:
+          type: object
+          description: Dados do cliente associado ao QRCode Pix.
+          additionalProperties: false
+          properties:
+            id:
+              type: string
+              description: Identificador único do cliente.
+              example: 'cus_2243f989-f044-49cc-84db-3ff9e4908dde'
+            name:
+              type: string
+              description: Nome do cliente.
+              example: 'João da Silva'
+            document:
+              type: string
+              description: Documento do cliente (CPF ou CNPJ).
+              example: '12345678900'
+            email:
+              type: string
+              description: Endereço de e-mail do cliente.
+              example: 'brendo.silva@example.com'
+            phone:
+              type: string
+              description: Número de telefone do cliente.
+              example: '+5511987654321'
+        createdAt:
+          type: string
+          description: Data de criação do QRCode Pix.
+          example: '2025-09-25 13:07:27'
+        updatedAt:
+          type: string
+          description: Data de atualização do QRCode Pix.
+          example: '2025-09-25 13:07:27'
+    Store:
+      type: object
+      description: Dados da loja/conta do usuário.
+      required: ['id', 'name', 'balance']
+      additionalProperties: false
+      properties:
+        id:
+          type: string
+          description: Identificador único da loja.
+          example: 'store_123456'
+        name:
+          type: string
+          description: Nome da loja.
+          example: 'Minha Loja Online'
+        balance:
+          type: object
+          description: Informações de saldo da loja.
+          required: ['available', 'pending', 'blocked']
+          additionalProperties: false
+          properties:
+            available:
+              type: number
+              description: Saldo disponível para saque em centavos.
+              example: 15000
+            pending:
+              type: number
+              description: Saldo pendente de confirmação em centavos.
+              example: 5000
+            blocked:
+              type: number
+              description: Saldo bloqueado em disputas em centavos.
+              example: 2000
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: Cabeçalho de autenticação Bearer no formato `Bearer <aobapay-api-key>` onde `<aobapay-api-key>` é a sua chave de API. 

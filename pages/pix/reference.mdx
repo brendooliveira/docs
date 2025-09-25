@@ -1,0 +1,163 @@
+---
+title: 'Referência'
+description: 'Gere um QRCode Pix e um código copia-e-cola para o seu cliente'
+icon: 'book-open-cover'
+---
+
+
+## <Icon icon="folder-tree" type="solid"/> Estrutura
+
+Uma cobrança via QRCode Pix é representada em nossa API pela seguinte estrutura:
+
+```json json
+{
+    "error": null,
+    "status": 200,
+    "data": {
+        "id": "ch_83940c67-4ee2-4087-b484-4e0f101754e2",
+        "externalID": "pedido-123",
+        "brCode": "00020101021226810014br.gov.bcb.pix255..",
+        "brCodeImageUrl": "https://api.aobapay.com/v1/qrcode/ch_abb6bc4f-f55d-45ff-8be2-8fdbde0cb8b8",
+        "amount": 200,
+        "comment": "Pagamento abc",
+        "expiration": 300,
+        "fee": 78,
+        "expiresAt": "2025-09-22 14:46:20",
+        "status": "PENDING",
+        "customer": {
+            "id": "cus_3d4c48ff-291c-4266-a1ee-ba523479d886",
+            "name": "Brendo",
+            "document": "123.456.789-01",
+            "email": "brendo@aobapay.com",
+            "phone": "15997886622"
+        },
+        "createdAt": "2025-09-22 14:41:20",
+        "updatedAt": "2025-09-22 14:41:20"
+    }
+}
+```
+
+## Atributos:
+
+<AccordionGroup>
+    <Accordion title="id:">
+        ```json json {2}
+        {
+            "id": "ch_83940c67-4ee2-4087-b484-4e0f101754e2"
+        } 
+        ```
+        `id` : <u> string. </u> <br />
+        Identificador único da cobrança.
+    </Accordion>
+
+    <Accordion title="externalID:">
+        ```json json {2}
+        {
+            "externalID": "seu id interno" // OU NULL
+        } 
+        ```
+        `id` : <u> string. </u> <br />
+        Identificador único da cobrança.
+    </Accordion>
+
+    <Accordion title="amount:">
+        ```json json {2}
+        {
+            "amount": 200
+        }
+        ```
+        `amount` : <u> number. </u> <br />
+        Valor da cobrança em centavos (ex: 200 = R$ 2,00)
+    </Accordion>
+
+    <Accordion title="status:">
+        ```json json {2}
+        {
+            "status": "PAID"
+        }
+        ```
+        `status` : <u> string. </u> <br />
+        Status da cobrança. Pode ser `PENDING`, `EXPIRED`, `FAILED`, `PAID`, `REFUNDED`.
+        <Info>
+            | Status       | Descrição |
+            | ----------- | ------------------------------------- |
+            | `PENDING`  | **A cobrança está com o pagamento pendente** |
+            | `EXPIRED`  | **O tempo limite de pagamento foi excedido** |
+            | `FAILED`   | **A cobrança teve falha** |
+            | `PAID`     | **A cobrança foi paga com sucesso pelo cliente** |
+            | `REFUNDED` | **O valor foi devolvido ao cliente** |
+        </Info>
+    </Accordion>
+
+
+    <Accordion title="brCode:">
+        ```json json {2}
+        {
+            "brCode": "..."
+        }
+        ```
+        `brCode` : <u> string. </u> <br />
+        Código PIX (copia-e-cola) para pagamento.
+    </Accordion>
+
+    <Accordion title="brCodeImageUrl:">
+        ```json json {2}
+        {
+            "brCodeImageUrl": "https://api.aobapay.com/v1/qrcode/ch_abb6bc4f-f55d-45ff-8be2-8fdbde0cb8b8"
+        }
+        ```
+        `brCodeBase64` : <u> string. </u> <br />
+        Código PIX no formato Base64 (útil para exibição em imagens).
+    </Accordion>
+
+    <Accordion title="fee:">
+        ```json json {2}
+        {
+            "fee": 78
+        }
+        ```
+        `platformFee` : <u> number. </u> <br />
+        Taxa da plataforma em centavos. Exemplo: `80` significa R$ 0,80.
+    </Accordion>
+
+    <Accordion title="comment:">
+        ```json json {2}
+        {
+            "comment": "Pagamento ABC"
+        }
+        ```
+        `description` : <u> string. </u> <br />
+        Comentario da cobrança.
+    </Accordion>
+
+    <Accordion title="createdAt:">
+        ```json json {2}
+        {
+            "createdAt": "2025-09-22 14:41:20"
+        }
+        ```
+        `createdAt` : <u> date-time. </u> <br />
+        Data e hora da criação da cobrança.
+    </Accordion>
+
+    <Accordion title="updatedAt:">
+        ```json json {2}
+        {
+            "updatedAt": "2025-09-22 14:41:20"
+        }
+        ```
+        `updatedAt` : <u> date-time. </u> <br />
+        Última atualização da cobrança.
+    </Accordion>
+
+    <Accordion title="expiresAt:">
+        ```json json {2}
+        {
+            "expiresAt": "2025-09-22 14:46:20"
+        }
+        ```
+        `expiresAt` : <u> date-time. </u> <br />
+        Data e hora de expiração do QRCode.
+    </Accordion>
+
+</AccordionGroup>
