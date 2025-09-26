@@ -4,7 +4,7 @@ description: 'Gerencie sua loja e visualize informações da sua conta.'
 icon: 'store'
 ---
 
-A **Loja** representa sua conta na AbacatePay, contendo todas as informações essenciais sobre seu negócio e saldos disponíveis.
+A **Loja** representa sua conta na AobaPay, contendo todas as informações essenciais sobre seu negócio e saldos disponíveis.
 
 ## <Icon icon="folder-tree" type="solid"/>  Estrutura
 
@@ -15,10 +15,9 @@ Uma loja é representada em nossa API pela seguinte estrutura:
     "error": null,
     "status": 200,
     "data": {
-        "accountID": "8918291298asjh",
+        "accountID": "8918291298891829",
         "taxID": "12345678000199",
-        "officialName": "AOBA PAY LTDA",
-        "tradeName": "AOBA PAY LTDA",
+        "name": "AOBA PAY LTDA",
         "fee": 78,
         "balance": {
             "total": 127152,
@@ -32,33 +31,43 @@ Uma loja é representada em nossa API pela seguinte estrutura:
 ## Atributos:
 
 <AccordionGroup>
-    <Accordion title="id:">
+    <Accordion title="accountID:">
         ```json {2}
         {
-          "id": "store_123456",
+          "accountID": "8918291298891829",
         } 
         ```
 
-        `id` : <u> string. </u> <br />
-        Identificador único da sua loja na AbacatePay
+        `accountID` : <u> string. </u> <br />
+        Identificador único da sua loja na AobaPay
+    </Accordion>
+    <Accordion title="fee:">
+        ```json {2}
+        {
+          "fee": "78",
+        } 
+        ```
+
+        `fee` : <u> string. </u> <br />
+        Identificador da taxa da conta
     </Accordion>
     <Accordion title="name:">
-        ```json {3}
+        ```json {2}
         {
-          "name": "Minha Loja Online",
+          "name": "AOBA PAY LTDA",
         } 
         ```
 
-        `name` : <u> string. </u> <br />
+        `officialName` : <u> string. </u> <br />
         Nome da sua loja/empresa
     </Accordion>
     <Accordion title="balance:">
-        ```json {4-8}
+        ```json {3-5}
         {
           "balance": {
-            "available": 15000,
-            "pending": 5000,
-            "blocked": 2000
+              "total": 127152,
+              "available": 0,
+              "blocked": 0
           }
         } 
         ```
@@ -66,8 +75,8 @@ Uma loja é representada em nossa API pela seguinte estrutura:
         `balance` : <u> object. </u> <br />
         Objeto contendo informações sobre os saldos da sua conta
 
-        * `available` : <u> number. </u> <br /> Saldo disponível para saque em centavos
-        * `pending` : <u> number. </u> <br /> Saldo pendente de confirmação em centavos
+        * `total` : <u> number. </u> <br /> Saldo total
+        * `available` : <u> number. </u> <br /> Saldo disponível
         * `blocked` : <u> number. </u> <br /> Saldo bloqueado em disputas em centavos
 
         <Tip title="Valores em centavos" icon="coins" horizontal>

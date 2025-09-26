@@ -1,17 +1,26 @@
 {
   "$schema": "https://mintlify.com/docs.json",
-  "theme": "almond",
+  "theme": "mint",
   "name": "Cpay Pagamentos",
   "colors": {
     "primary": "#08d6b4",
     "light": "#08d6b4",
     "dark": "#08d6b4"
   },
+  "appearance": {
+    "default": "system"
+  },
+  "icons": {
+    "library": "fontawesome"
+  },
+  "fonts":{
+    "family": "Bricolage Grotesque"
+  },
   "seo": {
     "indexing": "all",
     "metatags": {
       "og:type": "website",
-      "og:site_name": "Cpay Pagamentos Documentação"
+      "og:site_name": "AobaPay Pagamentos Documentação"
     }
   },
   "favicon": "/favicon.png",
@@ -64,6 +73,11 @@
           "anchor": "Comunidade",
           "href": "https://discord.gg/BxC2W3bB",
           "icon": "discord"
+        },
+        {
+          "anchor": "Status",
+          "href": "https://stats.uptimerobot.com/kEJMF69S5x",
+          "icon": "heart-pulse"
         }
       ]
     }

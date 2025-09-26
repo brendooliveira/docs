@@ -157,166 +157,38 @@ paths:
                 properties:
                   error:
                     type: string
-                    description: Mensagem de erro descrevendo o motivo da falha na autenticação.
-                    example: 'Token de autenticação inválido ou ausente.'
-      parameters:
-        - name: id
-          in: path
-          description: ID da cobrança
-          required: true
-          schema:
-            type: string
-  /withdraw/create:
-    post:
-      summary: Criar um novo saque
-      description: Permite que você crie um novo saque para transferir valores da sua conta para uma chave PIX.
-      security:
-        - bearerAuth: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              description: Dados necessários para criar um saque.
-              required: ['externalId', 'method', 'amount', 'pix']
-              additionalProperties: false
-              properties:
-                description:
-                  type: string
-                  description: Descrição opcional do saque.
-                  example: Saque para conta principal
-                externalId:
-                  type: string
-                  description: Identificador único do saque em seu sistema.
-                  example: 'withdraw-1234'
-                method:
-                  type: string
-                  description: Método de saque disponível.
-                  enum: ['PIX']
-                  example: 'PIX'
-                amount:
-                  type: number
-                  description: Valor do saque em centavos.
-                  minimum: 350
-                  example: 5000
-                pix:
-                  type: object
-                  description: Dados da chave PIX para receber o saque.
-                  required: ['type', 'key']
-                  additionalProperties: false
-                  properties:
-                    type:
-                      type: string
-                      description: Tipo da chave PIX.
-                      enum: ['CPF', 'CNPJ', 'PHONE', 'EMAIL', 'RANDOM']
-                      example: 'CPF'
-                    key:
-                      type: string
-                      description: Valor da chave PIX.
-                      example: '123.456.789-01'
-      responses:
-        '200':
-          description: Saque criado com sucesso.
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
+                    description: Mensagem de erro descrevendo o motivo da falha.
+                    example: 'Header com Authorization está vazio'
+                  status:
+                    type: integer
+                    description: Código de status HTTP.
+                    example: 401
                   data:
-                    $ref: '#/components/schemas/Transaction'
-                  error:
-                    type: 'null'
-        '401':
-          description: Não autorizado. Falha na autenticação.
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                    description: Mensagem de erro descrevendo o motivo da falha na autenticação.
-                    example: 'Token de autenticação inválido ou ausente.'
-  /withdraw/get:
-    get:
-      summary: Buscar saque
-      description: Permite que você recupere os detalhes de um saque específico usando o externalId.
-      security:
-        - bearerAuth: []
-      parameters:
-        - name: externalId
-          in: query
-          description: Identificador único do saque em seu sistema.
-          required: true
-          schema:
-            type: string
-            example: 'withdraw-1234'
-      responses:
-        '200':
-          description: Detalhes do saque retornados com sucesso.
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  data:
-                    $ref: '#/components/schemas/Transaction'
-                  error:
-                    type: 'null'
-        '401':
-          description: Não autorizado. Falha na autenticação.
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                    description: Mensagem de erro descrevendo o motivo da falha na autenticação.
-                    example: 'Token de autenticação inválido ou ausente.'
-        '404':
-          description: Saque não encontrado.
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  data:
-                    type: 'null'
-                  error:
-                    type: string
-                    description: Mensagem de erro indicando que o saque não foi encontrado.
-                    example: 'Saque não encontrado com o externalId fornecido.'
+                    type: 'array'
+                    example: []
   /account:
     get:
       summary: Obter detalhes da conta
-      description: Permite que você recupere os detalhes da sua conta/loja, incluindo informações de saldo.
+      description: Permite que você recupere os detalhes da sua conta, incluindo informações de saldo.
       security:
         - bearerAuth: []
       responses:
         '200':
-          description: Detalhes da loja retornados com sucesso.
+          description: Detalhes da conta retornados com sucesso.
           content:
             application/json: 
               schema:
-                oneOf:
-                  - type: object
-                    properties:
-                      error:
-                        type: string
-                        description: Mensagem de erro caso ocorra algum problema.
-                        example: 'Erro ao recuperar dados da loja.'
-                      data:
-                        type: 'null'
-                    required: ['error']
-                  - type: object
-                    properties:
-                      error:
-                        type: 'null'
-                      data:
-                        $ref: '#/components/schemas/Store'
-                    required: ['error', 'data']
+                type: object
+                properties:
+                  error:
+                    type: 'null'
+                  status:
+                    type: integer
+                    description: Código de status HTTP.
+                    example: 200
+                  data:
+                    $ref: '#/components/schemas/Account'
+                    
         '401':
           description: Não autorizado. Falha na autenticação.
           content:
@@ -326,8 +198,15 @@ paths:
                 properties:
                   error:
                     type: string
-                    description: Mensagem de erro descrevendo o motivo da falha na autenticação.
-                    example: 'Token de autenticação inválido ou ausente.'
+                    description: Mensagem de erro descrevendo o motivo da falha.
+                    example: 'Header com Authorization está vazio'
+                  status:
+                    type: integer
+                    description: Código de status HTTP.
+                    example: 401
+                  data:
+                    type: 'array'
+                    example: []
 components:
   schemas:
     PixQRCode:
@@ -407,20 +286,28 @@ components:
           type: string
           description: Data de atualização do QRCode Pix.
           example: '2025-09-25 13:07:27'
-    Store:
+    Account:
       type: object
-      description: Dados da loja/conta do usuário.
-      required: ['id', 'name', 'balance']
+      description: Dados da conta do usuário.
+      required: ['accountID', 'officialName', 'balance']
       additionalProperties: false
       properties:
-        id:
+        accountID:
           type: string
-          description: Identificador único da loja.
-          example: 'store_123456'
+          description: Identificador único da conta.
+          example: '8918291298891829'
+        taxID:
+          type: string
+          description: CNPJ da conta
+          example: '12345678000199'
         name:
           type: string
-          description: Nome da loja.
-          example: 'Minha Loja Online'
+          description: Nome da empresa.
+          example: 'AOBA PAY LTDA'
+        fee:
+          type: integer
+          description: Taxa da empresa
+          example: 78
         balance:
           type: object
           description: Informações de saldo da loja.
