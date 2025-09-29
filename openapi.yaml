@@ -112,6 +112,14 @@ paths:
     get:
       summary: 'Buscar cobrança'
       description: Busca os dados de uma cobrança pelo ID.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: [string, integer]
+            description: Id da cobrança pode ser o (externalID ou ChargeId)
+            example: "ch_123456"   # <-- Exemplo do parâmetro no path
       security:
         - bearerAuth: []
       responses:
@@ -130,6 +138,85 @@ paths:
                     example: 200
                   data:
                     $ref: '#/components/schemas/PixQRCode'
+        '400':
+          description: Requisição inválida. Dados fornecidos são inválidos.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Mensagem de erro descrevendo o motivo da falha.
+                    example: 'ID da cobrança é obrigatório'
+                  status:
+                    type: integer
+                    description: Código de status HTTP.
+                    example: 400
+                  data:
+                    type: 'array'
+                    example: []
+        '401':
+          description: Não autorizado. Falha na autenticação.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Mensagem de erro descrevendo o motivo da falha.
+                    example: 'Header com Authorization está vazio'
+                  status:
+                    type: integer
+                    description: Código de status HTTP.
+                    example: 401
+                  data:
+                    type: 'array'
+                    example: []
+  /charge/refund/{id}:
+    post:
+      summary: 'Extornar cobrança'
+      description: Veja como é simples fazer um extorno
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: [string, integer]
+            description: Id da cobrança pode ser o (externalID ou ChargeId)
+            example: "ch_123456"   # <-- Exemplo do parâmetro no path
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                amount:
+                  type: number
+                  description: Valor do extorno em centavos.
+                comment:
+                  type: string
+                  description: Comentário sobre o extorno
+                  maxLength: 35
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Extorno realizado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: 'null'
+                  status:
+                    type: integer
+                    description: Código de status HTTP.
+                    example: 200
+                  data:
+                    $ref: '#/components/schemas/Refund'
         '400':
           description: Requisição inválida. Dados fornecidos são inválidos.
           content:
@@ -288,8 +375,7 @@ components:
           example: '2025-09-25 13:07:27'
     Account:
       type: object
-      description: Dados da conta do usuário.
-      required: ['accountID', 'officialName', 'balance']
+      description: Retorno .
       additionalProperties: false
       properties:
         accountID:
@@ -311,7 +397,6 @@ components:
         balance:
           type: object
           description: Informações de saldo da loja.
-          required: ['available', 'pending', 'blocked']
           additionalProperties: false
           properties:
             available:
@@ -326,6 +411,27 @@ components:
               type: number
               description: Saldo bloqueado em disputas em centavos.
               example: 2000
+    Refund:
+      type: object
+      description: Dados do extorno.
+      additionalProperties: false
+      properties:
+        id:
+          type: string
+          description: Identificador único do QRCode Pix.
+          example: 'ch_123456'
+        externalID:
+          type: string
+          description: Identificador único do QRCode Pix no seu sistema.
+          example: 'pedido-123'
+        amount:
+          type: integer
+          description: Valor Extornado
+          example: 200
+        comment: 
+          type: string
+          description: Descrição do extorno
+          example: Se arrependeu ;(
   securitySchemes:
     bearerAuth:
       type: http
