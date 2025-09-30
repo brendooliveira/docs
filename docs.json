@@ -1,11 +1,11 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
-  "name": "Cpay Pagamentos",
+  "name": "AobaPay Pagamentos",
   "colors": {
-    "primary": "#08d6b4",
-    "light": "#08d6b4",
-    "dark": "#08d6b4"
+    "primary": "#002ec9",
+    "light": "#fff",
+    "dark": "#002ec9"
   },
   "appearance": {
     "default": "system"
@@ -23,7 +23,7 @@
       "og:site_name": "AobaPay Pagamentos Documentação"
     }
   },
-  "favicon": "/favicon.png",
+  "favicon": "favicon.svg",
   "api": {
     "mdx": {
       "server": "https://api.aobapay.com/v1",
@@ -83,8 +83,8 @@
     }
   },
   "logo": {
-    "light": "/logo/light.svg",
-    "dark": "/logo/dark.svg"
+    "light": "/logo/logo-aoba_4.svg",
+    "dark": "/logo/logo-aoba_5.svg"
   },
   "navbar": {
     "links": [
