@@ -87,7 +87,7 @@ A API retornará `401 Unauthorized` quando:
 Inclua a chave em todas as requisições no header `Authorization`:
 
 ```bash
-curl -X POST https://api.aobapay.com/v1/charge/pix/create \
+curl -X POST https://api.aobapay.com/v1/charge/pix/create  \
   -H "Authorization: Bearer sua_chave_api" \
   -H "Content-Type: application/json" \
   -d '{"amount": 1000}'
