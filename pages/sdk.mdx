@@ -1,19 +1,19 @@
 ---
 
 title: 'SDKs'
-description: 'Bibliotecas oficiais para integração com a API da Cpay'
+description: 'Bibliotecas oficiais para integração com a API da AobaPay'
 icon: 'boxes-stacked'
 ---------------------
 
 <Tip>
-  **Acelere sua integração com os SDKs da Cpay**: nossas bibliotecas oficiais reduzem a complexidade e oferecem recursos prontos para uso.
+  **Acelere sua integração com os SDKs da AobaPay**: nossas bibliotecas oficiais reduzem a complexidade e oferecem recursos prontos para uso.
 </Tip>
 
 ---
 
-## <Icon icon="code" type="solid"/> O que são os SDKs da Cpay?
+## <Icon icon="code" type="solid"/> O que são os SDKs da AobaPay?
 
-Os **SDKs (Software Development Kits)** da Cpay são bibliotecas que encapsulam a comunicação com nossa API.
+Os **SDKs (Software Development Kits)** da AobaPay são bibliotecas que encapsulam a comunicação com nossa API.
 Eles fornecem funções pré-construídas, tipagem forte (quando disponível) e tratamento de erros nativo, permitindo que você foque no que importa: integrar rapidamente os pagamentos ao seu produto.
 
 <Card title="Por que usar nossos SDKs?" icon="star" horizontal>
@@ -34,7 +34,7 @@ Mais SDKs estão em desenvolvimento.
 <Tabs>
   <Tab title="Backend">
     <CardGroup cols={2}>
-      <Card title="PHP" icon="php" color="#777BB3" href="https://github.com/cpay-pagamentos/cpay-sdk-php">
+      <Card title="PHP" icon="php" color="#777BB3" href="https://github.com/AobaPay-pagamentos/AobaPay-sdk-php">
         SDK oficial para PHP 7.4+, com suporte ao Composer e compatível com os padrões PSR.
       </Card>
     </CardGroup>
@@ -49,11 +49,11 @@ Veja como é simples criar uma cobrança usando o SDK oficial em PHP:
 
 <CodeGroup>
 ```php PHP
-// Instalação: composer require cpay/cpay-sdk-php
+// Instalação: composer require AobaPay/AobaPay-sdk-php
 <?php
 require_once 'vendor/autoload.php';
 
-use Cpay\Client\Client;
+use AobaPay\Client\Client;
 
 // Inicialize o cliente com seu token de autenticação
 $client = new Client('seu_token_aqui');
@@ -67,7 +67,7 @@ $opcoes = [
     'name' => 'Brendo Oliveira', //OPCIONAL
     'document' => '123.456.789-00', //OPCIONAL
     'expiration' => 3600, //OPCIONAL
-    'email' => 'brendo@cpay.app.br', //OPCIONAL
+    'email' => 'brendo@AobaPay.app.br', //OPCIONAL
     'phone' => '(15) 98765-4321', //OPCIONAL
     'comment' => 'Pagamento de serviço', //OPCIONAL
     'externalID' => 'pedido-123' // ID externo único //OPCIONAL
@@ -97,7 +97,7 @@ echo "Cobrança criada: " . $cobranca['data']['id'];
 </Accordion>
 
 <Accordion title="Ainda não há SDK para a linguagem que uso. E agora?">
-  Fale conosco em <Icon icon="envelope" type="solid"/> contato@cpay.app.br informando a linguagem desejada.  
+  Fale conosco em <Icon icon="envelope" type="solid"/> contato@AobaPay.app.br informando a linguagem desejada.  
   Também incentivamos contribuições da comunidade!
 </Accordion>
 
@@ -118,5 +118,5 @@ echo "Cobrança criada: " . $cobranca['data']['id'];
 
 <Card title="Precisa de ajuda?" icon="headset" color="#25c2a0">
   Nossa equipe está disponível para auxiliar em dúvidas relacionadas aos SDKs.  
-  Entre em contato pelo e-mail <Icon icon="envelope" type="solid"/> contato@cpay.app.br
+  Entre em contato pelo e-mail <Icon icon="envelope" type="solid"/> contato@AobaPay.app.br
 </Card>
