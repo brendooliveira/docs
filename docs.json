@@ -54,6 +54,14 @@
             ]
           },
           {
+            "group": "Saque",
+            "pages": [
+              "pages/withdraw/reference",
+              "pages/withdraw/create",
+              "pages/withdraw/get"
+            ]
+          },
+          {
             "group": "Conta",
             "pages": [
               "pages/account/reference",

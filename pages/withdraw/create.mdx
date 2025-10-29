@@ -1,0 +1,33 @@
+---
+title: 'Criar Saque'
+openapi: 'POST /withdraw/create'
+---
+
+## Criar um Novo Saque
+
+Este endpoint permite que você crie um novo pedido de saque. Você precisará fornecer o valor, os detalhes da chave PIX de destino e, opcionalmente, um comentário e um ID externo.
+
+```json
+{
+  "amount": 200,
+  "pix_type": "CPF",
+  "pix_key": "12345678900",
+  "comment": "Pagamento de fatura",
+  "externalID": "pedido-12345"
+}
+```
+
+<RequestExample>
+  ```bash
+  curl -X POST https://api.aobapay.com/v1/withdraw/create \
+  -H "Authorization: Bearer <token>" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "amount": 200,
+    "pix_type": "CPF",
+    "pix_key": "12345678900",
+    "comment": "Pagamento de fatura",
+    "externalID": "pedido-12345"
+  }'
+  ```
+</RequestExample>
