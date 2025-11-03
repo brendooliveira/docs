@@ -73,6 +73,13 @@
             "pages": [
               "pages/integrations/woocommerce"
             ]
+          },
+          {
+            "group": "FAQ",
+            "pages": [
+              "pages/faq/woovi",
+              "pages/faq/conta-virtual"
+            ]
           }
         ]
       },
