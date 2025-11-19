@@ -78,7 +78,8 @@
             "group": "FAQ",
             "pages": [
               "pages/faq/woovi",
-              "pages/faq/conta-virtual"
+              "pages/faq/conta-virtual",
+              "pages/faq/meds"
             ]
           }
         ]

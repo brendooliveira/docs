@@ -54,6 +54,10 @@ paths:
                   type: string
                   description: Documento do pagador (CPF ou CNPJ).
                   example: '12345678900'
+                postbackUrl:
+                  type: string
+                  description: URL para receber notificações sobre o status do pagamento, dos eventos de cobrança paga, expirada e extornada.
+                  example: 'https://webhook.example.com/pix'
               required: ['amount']
               uniqueProperties: ['externalID']
       responses:
