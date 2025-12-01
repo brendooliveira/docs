@@ -228,6 +228,95 @@ Este evento é disparado quando uma cobrança é extornada
 }
 ```
 
+### `EVENT:MED_CREATED`
+
+Este evento é disparado quando uma Disputa/Med é criada
+
+```json
+{
+  "event": "EVENT:MED_CREATED",
+  "data": {
+    "id": "ch_abb6bc4f-f55d-45ff-8be2-8fdbde0cb8b8",
+    "externalID": null,
+    "endToEndId": "8129812-189asnk1y1-1289aisn-1-2",
+    "amount": 200,
+    "name": "Sr Fulano",
+    "email": "vecna@strangerthings.com",
+    "status": "OPENED",
+    "disputeReason": "Will me enganou!",
+    "createdAt": "2025-09-17 15:59:07",
+    "updatedAt": "2025-09-17 15:59:10"
+  }
+}
+```
+
+### `EVENT:MED_REJECTED`
+
+Este evento é disparado quando uma Disputa/Med é Rejeitada e Favorável a empresa.
+
+```json
+{
+  "event": "EVENT:MED_REJECTED",
+  "data": {
+    "id": "ch_abb6bc4f-f55d-45ff-8be2-8fdbde0cb8b8",
+    "externalID": null,
+    "endToEndId": "8129812-189asnk1y1-1289aisn-1-2",
+    "amount": 200,
+    "name": "Sr Fulano",
+    "email": "vecna@strangerthings.com",
+    "status": "REJECTED",
+    "disputeReason": "Will me enganou!",
+    "createdAt": "2025-09-17 15:59:07",
+    "updatedAt": "2025-09-17 15:59:10"
+  }
+}
+```
+
+### `EVENT:MED_CANCELLED`
+
+Este evento é disparado quando uma Disputa/Med Cancelado
+
+```json
+{
+  "event": "EVENT:MED_CANCELLED",
+  "data": {
+    "id": "ch_abb6bc4f-f55d-45ff-8be2-8fdbde0cb8b8",
+    "externalID": null,
+    "endToEndId": "8129812-189asnk1y1-1289aisn-1-2",
+    "amount": 200,
+    "name": "Sr Fulano",
+    "email": "vecna@strangerthings.com",
+    "status": "CANCELLED",
+    "disputeReason": "Will me enganou!",
+    "createdAt": "2025-09-17 15:59:07",
+    "updatedAt": "2025-09-17 15:59:10"
+  }
+}
+```
+
+### `EVENT:MED_ACCEPTED`
+
+Este evento é disparado quando uma Disputa/Med Aceito e Favorável ao cliente
+
+```json
+{
+  "event": "EVENT:MED_ACCEPTED",
+  "data": {
+    "id": "ch_abb6bc4f-f55d-45ff-8be2-8fdbde0cb8b8",
+    "externalID": null,
+    "endToEndId": "8129812-189asnk1y1-1289aisn-1-2",
+    "amount": 200,
+    "name": "Sr Fulano",
+    "email": "vecna@strangerthings.com",
+    "status": "ACCEPTED",
+    "disputeReason": "Will me enganou!",
+    "createdAt": "2025-09-17 15:59:07",
+    "updatedAt": "2025-09-17 15:59:10"
+  }
+}
+```
+
+
 <Card title="Nota Importante" icon="info" horizontal>
   * Todos os valores monetários são expressos em centavos
   * O campo `fee` representa a taxa cobrada pela AobaPay
