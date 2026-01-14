@@ -69,6 +69,15 @@
             ]
           },
           {
+            "group": "BaaS",
+            "pages": [
+              "pages/baas/overview",
+              "pages/baas/reference",
+              "pages/baas/create",
+              "pages/baas/internal-transfer"
+            ]
+          },
+          {
             "group": "Integrações",
             "pages": [
               "pages/integrations/woocommerce"

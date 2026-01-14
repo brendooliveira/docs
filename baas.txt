@@ -1,0 +1,99 @@
+Requests e Campos Obrigatórios
+
+POST /v1/baas/account/create
+- Headers obrigatórios:
+  - Authorization: Bearer <token>
+  - (master) X-Account-ID: <account_ulid>
+- Body obrigatório:
+  - officialName (string)
+  - tradeName (string)
+  - taxID (string, CNPJ válido, único)
+  - documents (array de PDFs)
+  - address (objeto):
+    - zipcode (string)
+    - street (string)
+    - number (string)
+    - neighborhood (string)
+    - city (string)
+    - state (string, UF, tamanho 2)
+  - representatives (array, mínimo 1):
+    - name (string)
+    - birthDate (string, formato Y-m-d)
+    - email (string, e-mail válido)
+    - taxID (string, CPF válido)
+    - phone (string)
+    - documents (objeto):
+      - picture_face (string, JPG/PNG)
+      - picture_identity_front (string, JPG/PNG)
+      - picture_identity_back (string, JPG/PNG, opcional)
+      - picture_identity_type (string, RG|CNH)
+- Body opcional:
+  - postbackUrl (string, URL)
+- Respostas:
+  - 200: dados básicos da conta criada
+  - 400: erro de validação
+
+Exemplo (master)
+curl -X POST https://api.aobapay.com/v1/baas/account/create \
+  -H "Authorization: Bearer <token>" \
+  -H "X-Account-ID: 01k6abc..." \
+  -H "Content-Type: application/json" \
+  -d '{
+    "officialName":"Empresa Ltda",
+    "tradeName":"Empresa",
+    "taxID":"00.000.000/0001-91",
+    "documents": ["https://example.com/pdf"],
+    "address":{
+      "zipcode":"01001000",
+      "street":"Rua A",
+      "number":"123",
+      "neighborhood":"Centro",
+      "city":"São Paulo",
+      "state":"SP"
+    },
+    "representatives":[
+      {
+        "name":"Fulano",
+        "birthDate":"1990-01-01",
+        "email":"fulano@example.com",
+        "taxID":"000.000.000-00",
+        "phone":"11999999999",
+        "documents":{
+          "picture_face":"https://example.com/img",
+          "picture_identity_front":"https://example.com/img",
+          "picture_identity_back":"https://example.com/img",
+          "picture_identity_type":"RG"
+        }
+      }
+    ],
+    "postbackUrl":"https://example.com/webhook"
+  }'
+
+POST /v1/baas/internal-transfer
+- Headers obrigatórios:
+  - Authorization: Bearer <token>
+  - (master) X-Account-ID: <account_id>
+- Body obrigatório:
+  - amount (number, mínimo 1)
+  - from_key (string, pix_key de origem)
+  - to_key (string, pix_key de destino)
+- Regras adicionais:
+  - from_key e to_key devem pertencer ao seu grupo:
+    - ser a própria conta autenticada OU
+    - compartilhar ao menos um membro com a conta autenticada
+- Respostas:
+  - 200: { "amount": <valor>, "status": "DONE" }
+  - 400: erro de validação, erro OpenPix, ou saldo insuficiente
+  - 403: contas não pertencem ao seu grupo
+  - 404: conta de origem/destino não encontrada
+
+Exemplo (default/prod)
+curl -X POST https://api.aobapay.com/v1/baas/internal-transfer \
+  -H "Authorization: Bearer API_KEY" \
+  -H "X-Account-ID: 01k6abc..." \
+  -H "Content-Type: application/json" \
+  -d '{
+    "amount": 1000,
+    "from_key": "chave_pix_origem",
+    "to_key": "chave_pix_destino"
+  }'
