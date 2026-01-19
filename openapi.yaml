@@ -408,6 +408,10 @@ paths:
                 externalID:
                   type: string
                   description: ID externo para referência na sua aplicação.
+                postbackUrl:
+                  type: string
+                  description: URL para receber notificações sobre o status do pagamento, dos eventos de cobrança paga, expirada e extornada.
+                  example: 'https://webhook.example.com/pix'
       responses:
         '200':
           description: Saque criado com sucesso.
@@ -536,7 +540,7 @@ paths:
             schema:
               $ref: '#/components/schemas/BaaSAccountCreateRequest'
       responses:
-        '201':
+        '200':
           description: Conta criada com sucesso.
           content:
             application/json:
@@ -547,7 +551,7 @@ paths:
                     type: 'null'
                   status:
                     type: integer
-                    example: 201
+                    example: 200
                   data:
                     $ref: '#/components/schemas/BaaSAccountCreateResponse'
         '400':
