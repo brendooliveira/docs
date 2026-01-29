@@ -71,7 +71,6 @@
           {
             "group": "BaaS",
             "pages": [
-              "pages/baas/overview",
               "pages/baas/reference",
               "pages/baas/create",
               "pages/baas/internal-transfer"
