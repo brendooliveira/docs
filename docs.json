@@ -13,7 +13,7 @@
   "icons": {
     "library": "fontawesome"
   },
-  "fonts":{
+  "fonts": {
     "family": "Bricolage Grotesque"
   },
   "seo": {
@@ -39,11 +39,7 @@
         "groups": [
           {
             "group": "Introdução",
-            "pages": [
-              "pages/intro",
-              "pages/authentication",
-              "pages/webhooks"
-            ]
+            "pages": ["pages/intro", "pages/authentication", "pages/webhooks"]
           },
           {
             "group": "Pix QRCode",
@@ -63,24 +59,11 @@
           },
           {
             "group": "Conta",
-            "pages": [
-              "pages/account/reference",
-              "pages/account/get"
-            ]
-          },
-          {
-            "group": "BaaS",
-            "pages": [
-              "pages/baas/reference",
-              "pages/baas/create",
-              "pages/baas/internal-transfer"
-            ]
+            "pages": ["pages/account/reference", "pages/account/get"]
           },
           {
             "group": "Integrações",
-            "pages": [
-              "pages/integrations/woocommerce"
-            ]
+            "pages": ["pages/integrations/woocommerce"]
           },
           {
             "group": "FAQ",

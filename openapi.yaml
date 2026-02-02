@@ -519,78 +519,78 @@ paths:
                   data:
                     type: array
                     example: []
-  /baas/account/create:
-    post:
-      summary: 'Criar Conta BaaS'
-      description: Cria uma nova conta BaaS.
-      security:
-        - bearerAuth: []
-      parameters:
-        - name: X-Account-ID
-          in: header
-          required: true
-          description: Identificador da conta a ser operada (apenas para chave master).
-          schema:
-            type: string
-            example: '01k6abc...'
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/BaaSAccountCreateRequest'
-      responses:
-        '200':
-          description: Conta criada com sucesso.
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: 'null'
-                  status:
-                    type: integer
-                    example: 200
-                  data:
-                    $ref: '#/components/schemas/BaaSAccountCreateResponse'
-        '400':
-          description: Requisição inválida. Dados fornecidos são inválidos.
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                    description: Mensagem de erro descrevendo o motivo da falha.
-                    example: 'CNPJ inválido'
-                  status:
-                    type: integer
-                    description: Código de status HTTP.
-                    example: 400
-                  data:
-                    type: 'array'
-                    example: []
-        '401':
-          description: Não autorizado. Falha na autenticação.
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                    description: Mensagem de erro descrevendo o motivo da falha na autenticação.
-                    example: 'Header com Authorization está vazio'
-                  status:
-                    type: integer
-                    description: Código de status HTTP.
-                    example: 401
-                  data:
-                    type: 'array'
-                    example: []
-  /baas/internal-transfer:
+  # /baas/account/create:
+  #   post:
+  #     summary: 'Criar Conta BaaS'
+  #     description: Cria uma nova conta BaaS.
+  #     security:
+  #       - bearerAuth: []
+  #     parameters:
+  #       - name: X-Account-ID
+  #         in: header
+  #         required: true
+  #         description: Identificador da conta a ser operada (apenas para chave master).
+  #         schema:
+  #           type: string
+  #           example: '01k6abc...'
+  #     requestBody:
+  #       required: true
+  #       content:
+  #         application/json:
+  #           schema:
+  #             $ref: '#/components/schemas/BaaSAccountCreateRequest'
+  #     responses:
+  #       '200':
+  #         description: Conta criada com sucesso.
+  #         content:
+  #           application/json:
+  #             schema:
+  #               type: object
+  #               properties:
+  #                 error:
+  #                   type: 'null'
+  #                 status:
+  #                   type: integer
+  #                   example: 200
+  #                 data:
+  #                   $ref: '#/components/schemas/BaaSAccountCreateResponse'
+  #       '400':
+  #         description: Requisição inválida. Dados fornecidos são inválidos.
+  #         content:
+  #           application/json:
+  #             schema:
+  #               type: object
+  #               properties:
+  #                 error:
+  #                   type: string
+  #                   description: Mensagem de erro descrevendo o motivo da falha.
+  #                   example: 'CNPJ inválido'
+  #                 status:
+  #                   type: integer
+  #                   description: Código de status HTTP.
+  #                   example: 400
+  #                 data:
+  #                   type: 'array'
+  #                   example: []
+  #       '401':
+  #         description: Não autorizado. Falha na autenticação.
+  #         content:
+  #           application/json:
+  #             schema:
+  #               type: object
+  #               properties:
+  #                 error:
+  #                   type: string
+  #                   description: Mensagem de erro descrevendo o motivo da falha na autenticação.
+  #                   example: 'Header com Authorization está vazio'
+  #                 status:
+  #                   type: integer
+  #                   description: Código de status HTTP.
+  #                   example: 401
+  #                 data:
+  #                   type: 'array'
+  #                   example: []
+  # /baas/internal-transfer:
     post:
       summary: 'Transferência Interna BaaS'
       description: Transfere saldo entre chaves PIX do mesmo grupo.
