@@ -592,108 +592,108 @@ paths:
   #                   example: []
   # /baas/internal-transfer:
   #   post:
-      summary: 'Transferência Interna BaaS'
-      description: Transfere saldo entre chaves PIX do mesmo grupo.
-      security:
-        - bearerAuth: []
-      parameters:
-        - name: X-Account-ID
-          in: header
-          required: true
-          description: Identificador da conta a ser operada (apenas para chave master).
-          schema:
-            type: string
-            example: '01k6abc...'
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/BaaSInternalTransferRequest'
-      responses:
-        '200':
-          description: Transferência realizada.
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: 'null'
-                  status:
-                    type: integer
-                    description: Código de status HTTP.
-                    example: 200
-                  data:
-                    $ref: '#/components/schemas/BaaSInternalTransferResponse'
-        '400':
-          description: Requisição inválida. Dados fornecidos são inválidos ou saldo insuficiente.
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                    description: Mensagem de erro descrevendo o motivo da falha.
-                    example: 'Saldo insuficiente'
-                  status:
-                    type: integer
-                    description: Código de status HTTP.
-                    example: 400
-                  data:
-                    type: 'array'
-                    example: []
-        '401':
-          description: Não autorizado. Falha na autenticação.
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                    description: Mensagem de erro descrevendo o motivo da falha na autenticação.
-                    example: 'Header com Authorization está vazio'
-                  status:
-                    type: integer
-                    description: Código de status HTTP.
-                    example: 401
-                  data:
-                    type: 'array'
-                    example: []
-        '403':
-          description: Contas não pertencem ao seu grupo.
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                    example: 'Contas não pertencem ao seu grupo'
-                  status:
-                    type: integer
-                    example: 403
-                  data:
-                    type: 'array'
-                    example: []
-        '404':
-          description: Conta de origem/destino não encontrada.
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                    example: 'Conta não encontrada'
-                  status:
-                    type: integer
-                    example: 404
-                  data:
-                    type: 'array'
-                    example: []
+      # summary: 'Transferência Interna BaaS'
+      # description: Transfere saldo entre chaves PIX do mesmo grupo.
+      # security:
+      #   - bearerAuth: []
+      # parameters:
+      #   - name: X-Account-ID
+      #     in: header
+      #     required: true
+      #     description: Identificador da conta a ser operada (apenas para chave master).
+      #     schema:
+      #       type: string
+      #       example: '01k6abc...'
+      # requestBody:
+      #   required: true
+      #   content:
+      #     application/json:
+      #       schema:
+      #         $ref: '#/components/schemas/BaaSInternalTransferRequest'
+      # responses:
+      #   '200':
+      #     description: Transferência realizada.
+      #     content:
+      #       application/json:
+      #         schema:
+      #           type: object
+      #           properties:
+      #             error:
+      #               type: 'null'
+      #             status:
+      #               type: integer
+      #               description: Código de status HTTP.
+      #               example: 200
+      #             data:
+      #               $ref: '#/components/schemas/BaaSInternalTransferResponse'
+      #   '400':
+      #     description: Requisição inválida. Dados fornecidos são inválidos ou saldo insuficiente.
+      #     content:
+      #       application/json:
+      #         schema:
+      #           type: object
+      #           properties:
+      #             error:
+      #               type: string
+      #               description: Mensagem de erro descrevendo o motivo da falha.
+      #               example: 'Saldo insuficiente'
+      #             status:
+      #               type: integer
+      #               description: Código de status HTTP.
+      #               example: 400
+      #             data:
+      #               type: 'array'
+      #               example: []
+      #   '401':
+      #     description: Não autorizado. Falha na autenticação.
+      #     content:
+      #       application/json:
+      #         schema:
+      #           type: object
+      #           properties:
+      #             error:
+      #               type: string
+      #               description: Mensagem de erro descrevendo o motivo da falha na autenticação.
+      #               example: 'Header com Authorization está vazio'
+      #             status:
+      #               type: integer
+      #               description: Código de status HTTP.
+      #               example: 401
+      #             data:
+      #               type: 'array'
+      #               example: []
+      #   '403':
+      #     description: Contas não pertencem ao seu grupo.
+      #     content:
+      #       application/json:
+      #         schema:
+      #           type: object
+      #           properties:
+      #             error:
+      #               type: string
+      #               example: 'Contas não pertencem ao seu grupo'
+      #             status:
+      #               type: integer
+      #               example: 403
+      #             data:
+      #               type: 'array'
+      #               example: []
+      #   '404':
+      #     description: Conta de origem/destino não encontrada.
+      #     content:
+      #       application/json:
+      #         schema:
+      #           type: object
+      #           properties:
+      #             error:
+      #               type: string
+      #               example: 'Conta não encontrada'
+      #             status:
+      #               type: integer
+      #               example: 404
+      #             data:
+      #               type: 'array'
+      #               example: []
 components:
   parameters:
     XAccountId:
